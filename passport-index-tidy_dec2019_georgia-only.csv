@@ -1,0 +1,199 @@
+Passport,Passport_ISO3,Destination,Destination_ISO3,Code,Desc
+Afghanistan,AFG,Georgia,GEO,0,visa required
+Algeria,DZA,Georgia,GEO,0,visa required
+Bangladesh,BGD,Georgia,GEO,0,visa required
+Cameroon,CMR,Georgia,GEO,0,visa required
+Chad,TCD,Georgia,GEO,0,visa required
+Congo,COG,Georgia,GEO,0,visa required
+DR Congo,COD,Georgia,GEO,0,visa required
+Gabon,GAB,Georgia,GEO,0,visa required
+Gambia,GMB,Georgia,GEO,0,visa required
+Ghana,GHA,Georgia,GEO,0,visa required
+Guinea,GIN,Georgia,GEO,0,visa required
+Iraq,IRQ,Georgia,GEO,0,visa required
+Ivory Coast,CIV,Georgia,GEO,0,visa required
+Kenya,KEN,Georgia,GEO,0,visa required
+Kosovo,XKX,Georgia,GEO,0,visa required
+Liberia,LBR,Georgia,GEO,0,visa required
+Libya,LBY,Georgia,GEO,0,visa required
+Mali,MLI,Georgia,GEO,0,visa required
+Mauritania,MRT,Georgia,GEO,0,visa required
+Morocco,MAR,Georgia,GEO,0,visa required
+Nauru,NRU,Georgia,GEO,0,visa required
+Nepal,NPL,Georgia,GEO,0,visa required
+Nicaragua,NIC,Georgia,GEO,0,visa required
+Niger,NER,Georgia,GEO,0,visa required
+Nigeria,NGA,Georgia,GEO,0,visa required
+Pakistan,PAK,Georgia,GEO,0,visa required
+Palestine,PSE,Georgia,GEO,0,visa required
+Senegal,SEN,Georgia,GEO,0,visa required
+Sierra Leone,SLE,Georgia,GEO,0,visa required
+Somalia,SOM,Georgia,GEO,0,visa required
+South Sudan,SSD,Georgia,GEO,0,visa required
+Sri Lanka,LKA,Georgia,GEO,0,visa required
+Sudan,SDN,Georgia,GEO,0,visa required
+Syria,SYR,Georgia,GEO,0,visa required
+Tanzania,TZA,Georgia,GEO,0,visa required
+Tonga,TON,Georgia,GEO,0,visa required
+Tunisia,TUN,Georgia,GEO,0,visa required
+Uganda,UGA,Georgia,GEO,0,visa required
+Venezuela,VEN,Georgia,GEO,0,visa required
+Yemen,YEM,Georgia,GEO,0,visa required
+Bolivia,BOL,Georgia,GEO,1,eVISA 90 days
+Cuba,CUB,Georgia,GEO,1,eVISA 90 days
+Dominica,DMA,Georgia,GEO,1,eVISA 90 days
+Grenada,GRD,Georgia,GEO,1,eVISA 90 days
+Guatemala,GTM,Georgia,GEO,1,eVISA 90 days
+Kiribati,KIR,Georgia,GEO,1,eVISA 90 days
+Marshall Islands,MHL,Georgia,GEO,1,eVISA 90 days
+Micronesia,FSM,Georgia,GEO,1,eVISA 90 days
+North Macedonia,MKD,Georgia,GEO,1,eVISA 90 days
+Palau,PLW,Georgia,GEO,1,eVISA 90 days
+Paraguay,PRY,Georgia,GEO,1,eVISA 90 days
+Peru,PER,Georgia,GEO,1,eVISA 90 days
+Saint Kitts and Nevis,KNA,Georgia,GEO,1,eVISA 90 days
+Saint Lucia,LCA,Georgia,GEO,1,eVISA 90 days
+Samoa,WSM,Georgia,GEO,1,eVISA 90 days
+Solomon Islands,SLB,Georgia,GEO,1,eVISA 90 days
+Suriname,SUR,Georgia,GEO,1,eVISA 90 days
+Timor-Leste,TLS,Georgia,GEO,1,eVISA 90 days
+Trinidad and Tobago,TTO,Georgia,GEO,1,eVISA 90 days
+Tuvalu,TUV,Georgia,GEO,1,eVISA 90 days
+Vanuatu,VUT,Georgia,GEO,1,eVISA 90 days
+Angola,AGO,Georgia,GEO,2,eVISA 30 days
+Benin,BEN,Georgia,GEO,2,eVISA 30 days
+Bhutan,BTN,Georgia,GEO,2,eVISA 30 days
+Burkina Faso,BFA,Georgia,GEO,2,eVISA 30 days
+Burundi,BDI,Georgia,GEO,2,eVISA 30 days
+Cambodia,KHM,Georgia,GEO,2,eVISA 30 days
+Cape Verde,CPV,Georgia,GEO,2,eVISA 30 days
+Central African Republic,CAF,Georgia,GEO,2,eVISA 30 days
+China,CHN,Georgia,GEO,2,eVISA 30 days
+Comoros,COM,Georgia,GEO,2,eVISA 30 days
+Djibouti,DJI,Georgia,GEO,2,eVISA 30 days
+Egypt,EGY,Georgia,GEO,2,eVISA 30 days
+Equatorial Guinea,GNQ,Georgia,GEO,2,eVISA 30 days
+Eritrea,ERI,Georgia,GEO,2,eVISA 30 days
+Eswatini,SWZ,Georgia,GEO,2,eVISA 30 days
+Ethiopia,ETH,Georgia,GEO,2,eVISA 30 days
+Fiji,FJI,Georgia,GEO,2,eVISA 30 days
+Guinea-Bissau,GNB,Georgia,GEO,2,eVISA 30 days
+Guyana,GUY,Georgia,GEO,2,eVISA 30 days
+Haiti,HTI,Georgia,GEO,2,eVISA 30 days
+Hong Kong,HKG,Georgia,GEO,2,eVISA 30 days
+India,IND,Georgia,GEO,2,eVISA 30 days
+Indonesia,IDN,Georgia,GEO,2,eVISA 30 days
+Jamaica,JAM,Georgia,GEO,2,eVISA 30 days
+Laos,LAO,Georgia,GEO,2,eVISA 30 days
+Lesotho,LSO,Georgia,GEO,2,eVISA 30 days
+Macao,MAC,Georgia,GEO,2,eVISA 30 days
+Madagascar,MDG,Georgia,GEO,2,eVISA 30 days
+Malawi,MWI,Georgia,GEO,2,eVISA 30 days
+Maldives,MDV,Georgia,GEO,2,eVISA 30 days
+Mongolia,MNG,Georgia,GEO,2,eVISA 30 days
+Mozambique,MOZ,Georgia,GEO,2,eVISA 30 days
+Myanmar,MMR,Georgia,GEO,2,eVISA 30 days
+Namibia,NAM,Georgia,GEO,2,eVISA 30 days
+North Korea,PRK,Georgia,GEO,2,eVISA 30 days
+Papua New Guinea,PNG,Georgia,GEO,2,eVISA 30 days
+Philippines,PHL,Georgia,GEO,2,eVISA 30 days
+Rwanda,RWA,Georgia,GEO,2,eVISA 30 days
+Sao Tome and Principe,STP,Georgia,GEO,2,eVISA 30 days
+Togo,TGO,Georgia,GEO,2,eVISA 30 days
+Vietnam,VNM,Georgia,GEO,2,eVISA 30 days
+Zambia,ZMB,Georgia,GEO,2,eVISA 30 days
+Zimbabwe,ZWE,Georgia,GEO,2,eVISA 30 days
+Albania,ALB,Georgia,GEO,3,visa free
+Andorra,AND,Georgia,GEO,3,visa free
+Antigua and Barbuda,ATG,Georgia,GEO,3,visa free
+Argentina,ARG,Georgia,GEO,3,visa free
+Armenia,ARM,Georgia,GEO,3,visa free
+Australia,AUS,Georgia,GEO,3,visa free
+Austria,AUT,Georgia,GEO,3,visa free
+Azerbaijan,AZE,Georgia,GEO,3,visa free
+Bahamas,BHS,Georgia,GEO,3,visa free
+Bahrain,BHR,Georgia,GEO,3,visa free
+Barbados,BRB,Georgia,GEO,3,visa free
+Belarus,BLR,Georgia,GEO,3,visa free
+Belgium,BEL,Georgia,GEO,3,visa free
+Belize,BLZ,Georgia,GEO,3,visa free
+Bosnia and Herzegovina,BIH,Georgia,GEO,3,visa free
+Botswana,BWA,Georgia,GEO,3,visa free
+Brazil,BRA,Georgia,GEO,3,visa free
+Brunei,BRN,Georgia,GEO,3,visa free
+Bulgaria,BGR,Georgia,GEO,3,visa free
+Canada,CAN,Georgia,GEO,3,visa free
+Chile,CHL,Georgia,GEO,3,visa free
+Colombia,COL,Georgia,GEO,3,visa free
+Costa Rica,CRI,Georgia,GEO,3,visa free
+Croatia,HRV,Georgia,GEO,3,visa free
+Cyprus,CYP,Georgia,GEO,3,visa free
+Czech Republic,CZE,Georgia,GEO,3,visa free
+Denmark,DNK,Georgia,GEO,3,visa free
+Dominican Republic,DOM,Georgia,GEO,3,visa free
+Ecuador,ECU,Georgia,GEO,3,visa free
+El Salvador,SLV,Georgia,GEO,3,visa free
+Estonia,EST,Georgia,GEO,3,visa free
+Finland,FIN,Georgia,GEO,3,visa free
+France,FRA,Georgia,GEO,3,visa free
+Germany,DEU,Georgia,GEO,3,visa free
+Greece,GRC,Georgia,GEO,3,visa free
+Honduras,HND,Georgia,GEO,3,visa free
+Hungary,HUN,Georgia,GEO,3,visa free
+Iceland,ISL,Georgia,GEO,3,visa free
+Iran,IRN,Georgia,GEO,3,visa free
+Ireland,IRL,Georgia,GEO,3,visa free
+Israel,ISR,Georgia,GEO,3,visa free
+Italy,ITA,Georgia,GEO,3,visa free
+Japan,JPN,Georgia,GEO,3,visa free
+Jordan,JOR,Georgia,GEO,3,visa free
+Kazakhstan,KAZ,Georgia,GEO,3,visa free
+Kuwait,KWT,Georgia,GEO,3,visa free
+Kyrgyzstan,KGZ,Georgia,GEO,3,visa free
+Latvia,LVA,Georgia,GEO,3,visa free
+Lebanon,LBN,Georgia,GEO,3,visa free
+Liechtenstein,LIE,Georgia,GEO,3,visa free
+Lithuania,LTU,Georgia,GEO,3,visa free
+Luxembourg,LUX,Georgia,GEO,3,visa free
+Malaysia,MYS,Georgia,GEO,3,visa free
+Malta,MLT,Georgia,GEO,3,visa free
+Mauritius,MUS,Georgia,GEO,3,visa free
+Mexico,MEX,Georgia,GEO,3,visa free
+Moldova,MDA,Georgia,GEO,3,visa free
+Monaco,MCO,Georgia,GEO,3,visa free
+Montenegro,MNE,Georgia,GEO,3,visa free
+Netherlands,NLD,Georgia,GEO,3,visa free
+New Zealand,NZL,Georgia,GEO,3,visa free
+Norway,NOR,Georgia,GEO,3,visa free
+Oman,OMN,Georgia,GEO,3,visa free
+Panama,PAN,Georgia,GEO,3,visa free
+Poland,POL,Georgia,GEO,3,visa free
+Portugal,PRT,Georgia,GEO,3,visa free
+Qatar,QAT,Georgia,GEO,3,visa free
+Romania,ROU,Georgia,GEO,3,visa free
+Russia,RUS,Georgia,GEO,3,visa free
+Saint Vincent and the Grenadines,VCT,Georgia,GEO,3,visa free
+San Marino,SMR,Georgia,GEO,3,visa free
+Saudi Arabia,SAU,Georgia,GEO,3,visa free
+Serbia,SRB,Georgia,GEO,3,visa free
+Seychelles,SYC,Georgia,GEO,3,visa free
+Singapore,SGP,Georgia,GEO,3,visa free
+Slovakia,SVK,Georgia,GEO,3,visa free
+Slovenia,SVN,Georgia,GEO,3,visa free
+South Africa,ZAF,Georgia,GEO,3,visa free
+South Korea,KOR,Georgia,GEO,3,visa free
+Spain,ESP,Georgia,GEO,3,visa free
+Sweden,SWE,Georgia,GEO,3,visa free
+Switzerland,CHE,Georgia,GEO,3,visa free
+Tajikistan,TJK,Georgia,GEO,3,visa free
+Thailand,THA,Georgia,GEO,3,visa free
+Turkey,TUR,Georgia,GEO,3,visa free
+Turkmenistan,TKM,Georgia,GEO,3,visa free
+Ukraine,UKR,Georgia,GEO,3,visa free
+United Arab Emirates,ARE,Georgia,GEO,3,visa free
+United Kingdom,GBR,Georgia,GEO,3,visa free
+United States,USA,Georgia,GEO,3,visa free
+Uruguay,URY,Georgia,GEO,3,visa free
+Uzbekistan,UZB,Georgia,GEO,3,visa free
+Vatican,VAT,Georgia,GEO,3,visa free
+Taiwan,TWN,Georgia,GEO,4,refused entry
