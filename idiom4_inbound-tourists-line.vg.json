@@ -2,6 +2,10 @@
   "$schema": "https://vega.github.io/schema/vega/v5.json",
   "background": "white",
   "padding": 25,
+  "title": {
+    "text": "Number of People Visiting Georgia Over the Years vs Neighboring Countries",
+    "frame": "group"
+  },
   "width": 700,
   "height": 600,
   "style": "cell",
@@ -482,5 +486,5 @@
       "zindex": 0
     }
   ],
-  "config": {"legend": {"disable": true}}
+  "config": {"legend": {"disable": true}, "style": {"group-title": {"fontSize": 18}}}
 }
