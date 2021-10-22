@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.17.0"></script>
+
+        <!-- CSS file -->
+        <link rel="stylesheet" type="text/css" href="https://raw.githubusercontent.com/1anong/fit3179_visualisation2/main/styles.css" media="all">
+    </head>
+    <body>
+        <div id="container">
+            <p id="main-title">MAIN TITLE</p>
+            <p class="desc" id="desc0">main desc</p>
+            <div class="group" id="group-maps">
+                <p class="group-title">group 1 title</p>
+                <div class="group1-idiom idiom" id="idiom1"></div>
+                <div class="group1-idiom idiom" id="idiom2"></div>
+                <p class="desc" id="desc1">group1 desc</p>
+            </div>
+            <div class="group" id="group-tourism">
+                <p class="group-title">group 2 title</p>
+                <div class="group2-idiom idiom" id="idiom3"></div>
+                <div class="group2-idiom idiom" id="idiom4"></div>
+                <p class="desc" id="desc2">group2 desc1</p>
+                <div class="group2-idiom idiom" id="idiom5"></div>
+                <div class="group2-idiom idiom" id="idiom6"></div>
+                <p class="desc" id="desc3">group2 desc2</p>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+
+            vegaEmbed('#idiom1', "https://raw.githubusercontent.com/1anong/fit3179_visualisation2/main/idiom1_pop-dist.vg.json")
+            .then(function(result) {
+            // access vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+            }).catch(console.error);
+
+            vegaEmbed('#idiom2', "https://raw.githubusercontent.com/1anong/fit3179_visualisation2/main/idiom2_visa-policy.vg.json")
+            .then(function(result) {
+            // access vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+            }).catch(console.error);
+
+            vegaEmbed('#idiom3', "https://raw.githubusercontent.com/1anong/fit3179_visualisation2/main/idiom3_inbound-tourists.vg.json")
+            .then(function(result) {
+            // access vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+            }).catch(console.error);
+
+            vegaEmbed('#idiom4', "https://raw.githubusercontent.com/1anong/fit3179_visualisation2/main/idiom4_inbound-tourists-line.vg.json")
+            .then(function(result) {
+            // access vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+            }).catch(console.error);
+
+            vegaEmbed('#idiom5', "https://raw.githubusercontent.com/1anong/fit3179_visualisation2/main/idiom5_outbound-tourists.vg.json")
+            .then(function(result) {
+            // access vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+            }).catch(console.error);
+
+            vegaEmbed('#idiom6', "https://raw.githubusercontent.com/1anong/fit3179_visualisation2/main/idiom6_living-cost-index.vg.json")
+            .then(function(result) {
+            // access vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+            }).catch(console.error);
+
+        </script>
+
+    </body>
+</html>
