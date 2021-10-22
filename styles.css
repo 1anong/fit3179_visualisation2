@@ -18,6 +18,13 @@ p.group-title {
 	padding-top: 30px !important;
 }
 
+#credit {
+	text-align: center;
+	font-size: 12px !important;
+	padding: 8px;
+	background-color: #dedede;
+}
+
 #container {
 	display: block;
 	width: 1650px;
@@ -49,11 +56,4 @@ p.group-title {
 	height: 800px;
 	display: inline-block;
 	text-align: center;
-}
-
-#credit {
-	text-align: center;
-	font-size: 8px !important;
-	padding: 8px;
-	background-color: #dedede;
 }
