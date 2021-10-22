@@ -4,8 +4,8 @@ Algeria,DZA,Georgia,GEO,0,visa required
 Bangladesh,BGD,Georgia,GEO,0,visa required
 Cameroon,CMR,Georgia,GEO,0,visa required
 Chad,TCD,Georgia,GEO,0,visa required
-Congo,COG,Georgia,GEO,0,visa required
-DR Congo,COD,Georgia,GEO,0,visa required
+Republic of the Congo,COG,Georgia,GEO,0,visa required
+Democratic Republic of the Congo,COD,Georgia,GEO,0,visa required
 Gabon,GAB,Georgia,GEO,0,visa required
 Gambia,GMB,Georgia,GEO,0,visa required
 Ghana,GHA,Georgia,GEO,0,visa required
@@ -56,7 +56,7 @@ Saint Lucia,LCA,Georgia,GEO,1,eVISA 90 days
 Samoa,WSM,Georgia,GEO,1,eVISA 90 days
 Solomon Islands,SLB,Georgia,GEO,1,eVISA 90 days
 Suriname,SUR,Georgia,GEO,1,eVISA 90 days
-Timor-Leste,TLS,Georgia,GEO,1,eVISA 90 days
+East Timor,TLS,Georgia,GEO,1,eVISA 90 days
 Trinidad and Tobago,TTO,Georgia,GEO,1,eVISA 90 days
 Tuvalu,TUV,Georgia,GEO,1,eVISA 90 days
 Vanuatu,VUT,Georgia,GEO,1,eVISA 90 days
@@ -111,7 +111,7 @@ Armenia,ARM,Georgia,GEO,3,visa free
 Australia,AUS,Georgia,GEO,3,visa free
 Austria,AUT,Georgia,GEO,3,visa free
 Azerbaijan,AZE,Georgia,GEO,3,visa free
-Bahamas,BHS,Georgia,GEO,3,visa free
+The Bahamas,BHS,Georgia,GEO,3,visa free
 Bahrain,BHR,Georgia,GEO,3,visa free
 Barbados,BRB,Georgia,GEO,3,visa free
 Belarus,BLR,Georgia,GEO,3,visa free
@@ -192,7 +192,7 @@ Turkmenistan,TKM,Georgia,GEO,3,visa free
 Ukraine,UKR,Georgia,GEO,3,visa free
 United Arab Emirates,ARE,Georgia,GEO,3,visa free
 United Kingdom,GBR,Georgia,GEO,3,visa free
-United States,USA,Georgia,GEO,3,visa free
+United States of America,USA,Georgia,GEO,3,visa free
 Uruguay,URY,Georgia,GEO,3,visa free
 Uzbekistan,UZB,Georgia,GEO,3,visa free
 Vatican,VAT,Georgia,GEO,3,visa free
