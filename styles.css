@@ -19,6 +19,7 @@ p.group-title {
 }
 
 #credit {
+	display: block;
 	text-align: center;
 	font-size: 12px !important;
 	padding: 8px;
