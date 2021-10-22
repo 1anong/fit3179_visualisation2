@@ -2,7 +2,7 @@
   "$schema": "https://vega.github.io/schema/vega/v5.json",
   "background": "white",
   "padding": 5,
-  "title": {"anchor": "middle", "text": "Comparison of Living Cost Indices"},
+  "title": {"anchor": "middle", "text": "Comparison of Living Cost Indices (2018)"},
   "data": [
     {"name": "highlight_store"},
     {
