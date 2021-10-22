@@ -17,7 +17,12 @@
       "format": {"type": "csv", "delimiter": ","},
       "transform": [
         {"type": "identifier", "as": "_vgsid_"},
-        {"type": "filter", "expr": "datum.Year == year_select"}
+        {"type": "filter", "expr": "datum.Year == year_select"},
+        {
+          "type": "formula",
+          "expr": "datum.Tourists / 1000000",
+          "as": "Tourists_mil"
+        }
       ]
     },
     {
@@ -35,22 +40,22 @@
             "Percentage_Continent",
             "Percentage_World"
           ],
-          "ops": ["sum"],
-          "fields": ["Tourists"],
-          "as": ["sum_Tourists"]
+          "ops": ["sum", "sum"],
+          "fields": ["Tourists_mil", "Tourists"],
+          "as": ["sum_Tourists_mil", "sum_Tourists"]
         },
         {"type": "identifier", "as": "_vgsid_"},
         {
           "type": "stack",
           "groupby": ["Continent"],
-          "field": "sum_Tourists",
+          "field": "sum_Tourists_mil",
           "sort": {"field": ["sum_Tourists"], "order": ["descending"]},
-          "as": ["sum_Tourists_start", "sum_Tourists_end"],
+          "as": ["sum_Tourists_mil_start", "sum_Tourists_mil_end"],
           "offset": "zero"
         },
         {
           "type": "filter",
-          "expr": "isValid(datum[\"sum_Tourists\"]) && isFinite(+datum[\"sum_Tourists\"])"
+          "expr": "isValid(datum[\"sum_Tourists_mil\"]) && isFinite(+datum[\"sum_Tourists_mil\"])"
         }
       ]
     }
@@ -133,10 +138,10 @@
           },
           "ariaRoleDescription": {"value": "bar"},
           "description": {
-            "signal": "\"Number of tourists: \" + (format(datum[\"sum_Tourists\"], \"\")) + \"; Continent: \" + (isValid(datum[\"Continent\"]) ? datum[\"Continent\"] : \"\"+datum[\"Continent\"]) + \"; Country Name: \" + (isValid(datum[\"Country Name\"]) ? datum[\"Country Name\"] : \"\"+datum[\"Country Name\"]) + \"; Sum of Tourists: \" + (isValid(datum[\"sum_Tourists\"]) ? datum[\"sum_Tourists\"] : \"\"+datum[\"sum_Tourists\"]) + \"; Country Code: \" + (isValid(datum[\"Country Code\"]) ? datum[\"Country Code\"] : \"\"+datum[\"Country Code\"]) + \"; Tourists: \" + (format(datum[\"Tourists\"], \",\")) + \"; Worldwide Rank: \" + (format(datum[\"Rank\"], \"\")) + \"; % of Continent: \" + (format(datum[\"Percentage_Continent\"], \"\")) + \"; % of World: \" + (format(datum[\"Percentage_World\"], \".2\"))"
+            "signal": "\"Number of tourists (million): \" + (format(datum[\"sum_Tourists_mil\"], \"\")) + \"; Continent: \" + (isValid(datum[\"Continent\"]) ? datum[\"Continent\"] : \"\"+datum[\"Continent\"]) + \"; Country Name: \" + (isValid(datum[\"Country Name\"]) ? datum[\"Country Name\"] : \"\"+datum[\"Country Name\"]) + \"; Sum of Tourists: \" + (isValid(datum[\"sum_Tourists\"]) ? datum[\"sum_Tourists\"] : \"\"+datum[\"sum_Tourists\"]) + \"; Country Code: \" + (isValid(datum[\"Country Code\"]) ? datum[\"Country Code\"] : \"\"+datum[\"Country Code\"]) + \"; Tourists: \" + (format(datum[\"Tourists\"], \",\")) + \"; Worldwide Rank: \" + (format(datum[\"Rank\"], \"\")) + \"; % of Continent: \" + (format(datum[\"Percentage_Continent\"], \"\")) + \"; % of World: \" + (format(datum[\"Percentage_World\"], \".2\"))"
           },
-          "x": {"scale": "x", "field": "sum_Tourists_end"},
-          "x2": {"scale": "x", "field": "sum_Tourists_start"},
+          "x": {"scale": "x", "field": "sum_Tourists_mil_end"},
+          "x2": {"scale": "x", "field": "sum_Tourists_mil_start"},
           "y": {"scale": "y", "field": "Continent"},
           "height": {"scale": "y", "band": 1}
         }
@@ -150,7 +155,7 @@
       "from": {"data": "source_0"},
       "encode": {
         "update": {
-          "dx": {"value": 110},
+          "dx": {"value": 190},
           "dy": {"value": -90},
           "fontSize": {"value": 12},
           "fill": {"value": "black"},
@@ -178,7 +183,7 @@
       "type": "linear",
       "domain": {
         "data": "data_0",
-        "fields": ["sum_Tourists_start", "sum_Tourists_end"]
+        "fields": ["sum_Tourists_mil_start", "sum_Tourists_mil_end"]
       },
       "range": [0, {"signal": "width"}],
       "nice": true,
@@ -190,7 +195,7 @@
       "domain": {
         "data": "source_0",
         "field": "Continent",
-        "sort": {"op": "sum", "field": "Tourists", "order": "descending"}
+        "sort": {"op": "sum", "field": "Tourists_mil", "order": "descending"}
       },
       "range": [0, {"signal": "height"}],
       "paddingInner": 0.1,
@@ -222,7 +227,7 @@
       "scale": "x",
       "orient": "bottom",
       "grid": false,
-      "title": "Number of tourists",
+      "title": "Number of tourists (million)",
       "labelFlush": true,
       "labelOverlap": true,
       "tickCount": {"signal": "ceil(width/40)"},
@@ -236,5 +241,9 @@
       "zindex": 0
     }
   ],
-  "config": {"legend": {"disable": true}, "style": {"group-title": {"fontSize": 18}}}
+  "config": {
+    "axis": {"labelFontSize": 12, "titleFontSize": 14},
+    "legend": {"disable": true},
+    "style": {"group-title": {"fontSize": 18}}
+  }
 }
