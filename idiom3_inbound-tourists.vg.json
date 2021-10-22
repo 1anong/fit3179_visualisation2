@@ -2,7 +2,7 @@
   "$schema": "https://vega.github.io/schema/vega/v5.json",
   "background": "white",
   "padding": 5,
-  "width": 690,
+  "width": 650,
   "height": 590,
   "title": {
     "text": "Number of People Visiting Georgia vs Other Countries, Grouped by Continent",
