@@ -29,6 +29,10 @@ container {
 	display: inline-block;
 }
 
+#idiom6 {
+	padding-bottom: 200px;
+}
+
 .desc {
 	display: block;
 	text-align: left;
