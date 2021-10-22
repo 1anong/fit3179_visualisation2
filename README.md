@@ -1,6 +1,6 @@
 # FIT3179 Data Visualisation - Project 2<br/>By: Ian Ong
 
-Repository contains datasets, `.topojson`, `.vg.json` files and other HTML components.
+Repository contains datasets, `.topojson` files, `.vg.json` files and other HTML components.
 
 ## Datasets used:
 - [Georgia - Subnational Population Statistics](https://data.humdata.org/dataset/georgia-population-statistics)
