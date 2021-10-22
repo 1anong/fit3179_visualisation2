@@ -36,13 +36,14 @@ body {
 	width: 800px;
 	height: 800px;
 	display: inline-block;
+	text-align: center;
 }
 
 div#idiom5 {
 	margin-bottom: 200px;
 }
 
-p.desc {
+div p.desc {
 	text-align: left;
 	padding: 10px 80px;
 }
