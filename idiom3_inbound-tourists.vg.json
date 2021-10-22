@@ -5,7 +5,7 @@
   "width": 700,
   "height": 600,
   "title": {
-    "text": "Georgia's incoming tourists vs other countries, grouped by continent",
+    "text": "Number of People Visiting Georgia vs Other Countries, Grouped by Continent",
     "frame": "group"
   },
   "style": "cell",
@@ -150,7 +150,7 @@
       "from": {"data": "source_0"},
       "encode": {
         "update": {
-          "dx": {"value": 190},
+          "dx": {"value": 110},
           "dy": {"value": -90},
           "fontSize": {"value": 12},
           "fill": {"value": "black"},
@@ -236,5 +236,5 @@
       "zindex": 0
     }
   ],
-  "config": {"legend": {"disable": true}}
+  "config": {"legend": {"disable": true}, "style": {"group-title": {"fontSize": 18}}}
 }
