@@ -104,7 +104,7 @@
       "from": {"data": "data_1"},
       "encode": {
         "update": {
-          "radius": {"value": 180},
+          "radius": {"value": 250},
           "fontSize": {"value": 16},
           "fontWeight": {"value": "bold"},
           "fill": {"value": "#333"},
@@ -132,7 +132,7 @@
       "encode": {
         "update": {
           "dy": {"value": 18},
-          "radius": {"value": 178},
+          "radius": {"value": 248},
           "fontSize": {"value": 16},
           "fontWeight": {"value": "bold"},
           "fill": {"value": "#333"},
