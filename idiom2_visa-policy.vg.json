@@ -4,7 +4,7 @@
   "padding": 5,
   "width": 700,
   "height": 600,
-  "title": {"text": "Visa Policy of Georgia", "frame": "group"},
+  "title": {"text": "Visa Policy of Georgia (2019)", "frame": "group"},
   "data": [
     {"name": "highlight_store"},
     {"name": "category_select_store"},
