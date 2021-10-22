@@ -18,6 +18,10 @@ container {
     text-align: center;
 }
 
+.group {
+	width: 100%;
+}
+
 .idiom (
 	width: 800px;
 	height: 800px;
