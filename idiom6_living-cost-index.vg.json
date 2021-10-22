@@ -92,8 +92,8 @@
     }
   ],
   "signals": [
-    {"name": "childWidth", "value": 400},
-    {"name": "childHeight", "value": 400},
+    {"name": "childWidth", "value": 375},
+    {"name": "childHeight", "value": 375},
     {
       "name": "unit",
       "value": {},
