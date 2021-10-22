@@ -155,7 +155,7 @@
       "from": {"data": "source_0"},
       "encode": {
         "update": {
-          "dx": {"value": 190},
+          "dx": {"value": 110},
           "dy": {"value": -90},
           "fontSize": {"value": 12},
           "fill": {"value": "black"},
