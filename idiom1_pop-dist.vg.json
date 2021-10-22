@@ -7,7 +7,7 @@
   "title": {
     "text": "Population Distribution of Georgia by Municipality",
     "frame": "group",
-    "dy": -50,
+    "dy": -60,
     "fontSize": 18
   },
   "data": [
@@ -209,7 +209,7 @@
           "dy": {"value": -20},
           "fontSize": {"value": 14},
           "fontWeight": {"value": "bold"},
-          "fill": {"value": "#f2f2f2"},
+          "fill": {"value": "white"},
           "description": {
             "signal": "\"long: \" + (format(datum[\"long\"], \"\")) + \"; lat: \" + (format(datum[\"lat\"], \"\")) + \"; custom_name: \" + (isValid(datum[\"custom_name\"]) ? datum[\"custom_name\"] : \"\"+datum[\"custom_name\"])"
           },
