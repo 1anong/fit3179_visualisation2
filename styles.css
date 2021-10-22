@@ -42,14 +42,12 @@ div#idiom5 {
 	margin-bottom: 200px;
 }
 
-.desc {
-	display: block;
+p.desc {
 	text-align: left;
-	width: 80%,
-	margin: 0px auto;
+	padding: 10px 80px;
 }
 
-.group-title {
-	font-size: 20px;
+p.group-title {
+	font-size: 24px;
 	text-align: center;
 }
