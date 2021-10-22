@@ -11,6 +11,10 @@ p {
 	letter-spacing: 0.5px;
 }
 
+p.desc {
+	font-size: 14px;
+}
+
 p.group-title {
 	font-size: 30px;
 	text-align: center;
