@@ -1,0 +1,440 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v5.json",
+  "background": "white",
+  "padding": 5,
+  "width": 700,
+  "height": 500,
+  "title": {"text": "Visa Policy of Georgia", "frame": "group"},
+  "data": [
+    {"name": "highlight_store"},
+    {"name": "category_select_store"},
+    {
+      "name": "source_1",
+      "url": "https://raw.githubusercontent.com/1anong/fit3179_visualisation2/main/data/passport-index-tidy_dec2019_georgia-only.csv",
+      "format": {"type": "csv", "delimiter": ","}
+    },
+    {
+      "name": "source_2",
+      "values": [
+        {"long": 0, "lat": 40, "custom_name": "Castellón, Spain"},
+        {
+          "long": 44.783333,
+          "lat": 41.716667,
+          "custom_name": "Tbilisi, Georgia"
+        },
+        {
+          "long": 153.0219122743926,
+          "lat": -27.471094278502505,
+          "custom_name": "Brisbane, Australia"
+        },
+        {
+          "long": 87.3245803727662,
+          "lat": 45.22322215385315,
+          "custom_name": "Xinjiang, China"
+        },
+        {
+          "long": 21.03747013943132,
+          "lat": 52.3722420110974,
+          "custom_name": "Warsaw, Poland"
+        },
+        {
+          "long": -100.45511884661211,
+          "lat": 48.82815059587685,
+          "custom_name": "North Dakota, USA"
+        },
+        {
+          "long": -56.096922942329634,
+          "lat": -15.59553878583696,
+          "custom_name": "Cuiabá, Brazil"
+        },
+        {
+          "long": 18.43518257831493,
+          "lat": 0.9222829107132686,
+          "custom_name": "Mbandaka, D. R. Congo"
+        }
+      ]
+    },
+    {
+      "name": "source_0",
+      "url": "https://raw.githubusercontent.com/1anong/fit3179_visualisation2/main/data/geodata/worldmap.topojson",
+      "format": {
+        "type": "topojson",
+        "feature": "ne_110m_admin_0_countries",
+        "parse": {}
+      },
+      "transform": [
+        {
+          "type": "formula",
+          "expr": "datum[\"properties\"] && datum[\"properties\"][\"NAME_EN\"]",
+          "as": "properties.NAME_EN"
+        },
+        {"type": "identifier", "as": "_vgsid_"},
+        {
+          "type": "lookup",
+          "from": "source_1",
+          "key": "Passport",
+          "fields": ["properties.NAME_EN"],
+          "values": ["Code", "Passport", "Desc"]
+        },
+        {
+          "type": "formula",
+          "expr": "datum.properties.NAME_EN === 'Georgia'? '-': datum.Desc == null? 'unknown': datum.Desc",
+          "as": "Desc_NA"
+        },
+        {
+          "type": "formula",
+          "expr": "datum.properties.NAME_EN === 'Georgia'? 'Georgia': datum.Desc == null? 'unknown': datum.Desc",
+          "as": "Desc_NA_Legend"
+        },
+        {
+          "type": "formula",
+          "expr": "datum[\"Desc_NA_Legend\"]===\"Georgia\" ? 0 : datum[\"Desc_NA_Legend\"]===\"visa free\" ? 1 : datum[\"Desc_NA_Legend\"]===\"eVISA 90 days\" ? 2 : datum[\"Desc_NA_Legend\"]===\"eVISA 30 days\" ? 3 : datum[\"Desc_NA_Legend\"]===\"visa required\" ? 4 : datum[\"Desc_NA_Legend\"]===\"refused entry\" ? 5 : 6",
+          "as": "color_Desc_NA_Legend_sort_index"
+        }
+      ]
+    },
+    {
+      "name": "data_0",
+      "source": "source_2",
+      "transform": [{"type": "identifier", "as": "_vgsid_"}]
+    },
+    {
+      "name": "data_1",
+      "source": "data_0",
+      "transform": [
+        {
+          "type": "geopoint",
+          "projection": "projection",
+          "fields": ["long", "lat"],
+          "as": ["layer_1_layer_0_x", "layer_1_layer_0_y"]
+        }
+      ]
+    },
+    {
+      "name": "data_2",
+      "source": "data_0",
+      "transform": [
+        {
+          "type": "geopoint",
+          "projection": "projection",
+          "fields": ["long", "lat"],
+          "as": ["layer_1_layer_1_layer_0_x", "layer_1_layer_1_layer_0_y"]
+        }
+      ]
+    }
+  ],
+  "projections": [
+    {
+      "name": "projection",
+      "translate": {"signal": "[width / 2, height / 2]"},
+      "type": "mercator",
+      "center": {"signal": "center_to"},
+      "scale": {"signal": "zoom_level"}
+    }
+  ],
+  "signals": [
+    {
+      "name": "unit",
+      "value": {},
+      "on": [
+        {"events": "mousemove", "update": "isTuple(group()) ? group() : unit"}
+      ]
+    },
+    {
+      "name": "category_select_Desc_NA_Legend_legend",
+      "value": null,
+      "on": [
+        {
+          "events": [
+            {
+              "source": "view",
+              "type": "click",
+              "markname": "Desc_NA_Legend_legend_symbols"
+            },
+            {
+              "source": "view",
+              "type": "click",
+              "markname": "Desc_NA_Legend_legend_labels"
+            },
+            {
+              "source": "view",
+              "type": "click",
+              "markname": "Desc_NA_Legend_legend_entries"
+            }
+          ],
+          "update": "datum.value || item().items[0].items[0].datum.value",
+          "force": true
+        },
+        {
+          "events": [{"source": "view", "type": "click"}],
+          "update": "!event.item || !datum ? null : category_select_Desc_NA_Legend_legend",
+          "force": true
+        }
+      ]
+    },
+    {
+      "name": "highlight",
+      "update": "vlSelectionResolve(\"highlight_store\", \"union\", true, true)"
+    },
+    {
+      "name": "category_select",
+      "update": "vlSelectionResolve(\"category_select_store\", \"union\", true, true)"
+    },
+    {
+      "name": "zoom_level",
+      "value": 90,
+      "bind": {
+        "input": "range",
+        "min": 90,
+        "max": 600,
+        "step": 10,
+        "name": "Zoom: "
+      }
+    },
+    {
+      "name": "center_to",
+      "value": [0, 40],
+      "bind": {
+        "name": "Centre on: ",
+        "input": "select",
+        "options": [
+          [0, 40],
+          [44.783333, 41.716667],
+          [153.0219122743926, -27.471094278502505],
+          [87.3245803727662, 45.22322215385315],
+          [21.03747013943132, 52.3722420110974],
+          [-100.45511884661211, 48.82815059587685],
+          [-56.096922942329634, -15.59553878583696],
+          [18.43518257831493, 0.9222829107132686]
+        ],
+        "labels": [
+          "Midpoint (Castellón, Spain)",
+          "HOME (Tbilisi, Georgia)",
+          "Oceania (Brisbane, Australia)",
+          "Asia (Xinjiang, China)",
+          "Europe (Warsaw, Poland)",
+          "North America (North Dakota, USA)",
+          "South America (Cuiabá, Brazil)",
+          "Africa (Mbandaka, D. R. Congo)"
+        ]
+      }
+    },
+    {
+      "name": "highlight_tuple",
+      "on": [
+        {
+          "events": [{"source": "scope", "type": "mouseover"}],
+          "update": "datum && item().mark.marktype !== 'group' ? {unit: \"layer_0\", fields: highlight_tuple_fields, values: [(item().isVoronoi ? datum.datum : datum)[\"_vgsid_\"]]} : null",
+          "force": true
+        },
+        {"events": [{"source": "view", "type": "dblclick"}], "update": "null"}
+      ]
+    },
+    {
+      "name": "highlight_tuple_fields",
+      "value": [{"type": "E", "field": "_vgsid_"}]
+    },
+    {
+      "name": "highlight_toggle",
+      "value": false,
+      "on": [
+        {
+          "events": [{"source": "scope", "type": "mouseover"}],
+          "update": "event.shiftKey"
+        },
+        {"events": [{"source": "view", "type": "dblclick"}], "update": "false"}
+      ]
+    },
+    {
+      "name": "highlight_modify",
+      "on": [
+        {
+          "events": {"signal": "highlight_tuple"},
+          "update": "modify(\"highlight_store\", highlight_toggle ? null : highlight_tuple, highlight_toggle ? null : true, highlight_toggle ? highlight_tuple : null)"
+        }
+      ]
+    },
+    {
+      "name": "category_select_tuple",
+      "update": "category_select_Desc_NA_Legend_legend !== null ? {fields: category_select_tuple_fields, values: [category_select_Desc_NA_Legend_legend]} : null"
+    },
+    {
+      "name": "category_select_tuple_fields",
+      "value": [{"type": "E", "field": "Desc_NA_Legend"}]
+    },
+    {
+      "name": "category_select_toggle",
+      "value": false,
+      "on": [
+        {
+          "events": {"merge": [{"source": "view", "type": "click"}]},
+          "update": "event.shiftKey"
+        }
+      ]
+    },
+    {
+      "name": "category_select_modify",
+      "on": [
+        {
+          "events": {"signal": "category_select_tuple"},
+          "update": "modify(\"category_select_store\", category_select_toggle ? null : category_select_tuple, category_select_toggle ? null : true, category_select_toggle ? category_select_tuple : null)"
+        }
+      ]
+    }
+  ],
+  "marks": [
+    {
+      "name": "layer_0_marks",
+      "type": "shape",
+      "clip": true,
+      "style": ["geoshape"],
+      "interactive": true,
+      "from": {"data": "source_0"},
+      "encode": {
+        "update": {
+          "stroke": {"value": "black"},
+          "fill": {"scale": "color", "field": "Desc_NA_Legend"},
+          "opacity": [
+            {
+              "test": "!length(data(\"category_select_store\")) || vlSelectionTest(\"category_select_store\", datum)",
+              "value": 1
+            },
+            {"value": 0.2}
+          ],
+          "strokeWidth": [
+            {
+              "test": "length(data(\"highlight_store\")) && vlSelectionTest(\"highlight_store\", datum)",
+              "value": 2
+            },
+            {"value": 0.3}
+          ],
+          "tooltip": {
+            "signal": "{\"Country\": isValid(datum[\"properties.NAME_EN\"]) ? datum[\"properties.NAME_EN\"] : \"\"+datum[\"properties.NAME_EN\"], \"Visa Requirement\": isValid(datum[\"Desc_NA\"]) ? datum[\"Desc_NA\"] : \"\"+datum[\"Desc_NA\"]}"
+          },
+          "ariaRoleDescription": {"value": "geoshape"},
+          "description": {
+            "signal": "\"Desc_NA_Legend: \" + (isValid(datum[\"Desc_NA_Legend\"]) ? datum[\"Desc_NA_Legend\"] : \"\"+datum[\"Desc_NA_Legend\"]) + \"; Country: \" + (isValid(datum[\"properties.NAME_EN\"]) ? datum[\"properties.NAME_EN\"] : \"\"+datum[\"properties.NAME_EN\"]) + \"; Visa Requirement: \" + (isValid(datum[\"Desc_NA\"]) ? datum[\"Desc_NA\"] : \"\"+datum[\"Desc_NA\"])"
+          }
+        }
+      },
+      "transform": [{"type": "geoshape", "projection": "projection"}]
+    },
+    {
+      "name": "layer_1_layer_0_marks",
+      "type": "symbol",
+      "clip": true,
+      "style": ["circle"],
+      "interactive": false,
+      "from": {"data": "data_1"},
+      "encode": {
+        "update": {
+          "opacity": {"value": 1},
+          "fill": {"value": "red"},
+          "ariaRoleDescription": {"value": "circle"},
+          "description": {
+            "signal": "\"long: \" + (format(datum[\"long\"], \"\")) + \"; lat: \" + (format(datum[\"lat\"], \"\"))"
+          },
+          "x": {"field": "layer_1_layer_0_x"},
+          "y": {"field": "layer_1_layer_0_y"},
+          "shape": {"value": "circle"}
+        }
+      }
+    },
+    {
+      "name": "layer_1_layer_1_layer_0_marks",
+      "type": "text",
+      "clip": true,
+      "style": ["text"],
+      "interactive": false,
+      "from": {"data": "data_2"},
+      "encode": {
+        "update": {
+          "dy": {"value": -20},
+          "fontSize": {"value": 14},
+          "fill": {"value": "#222"},
+          "opacity": [{"test": "zoom_level > 300", "value": 1}, {"value": 0}],
+          "description": {
+            "signal": "\"long: \" + (format(datum[\"long\"], \"\")) + \"; lat: \" + (format(datum[\"lat\"], \"\")) + \"; custom_name: \" + (isValid(datum[\"custom_name\"]) ? datum[\"custom_name\"] : \"\"+datum[\"custom_name\"])"
+          },
+          "x": {"field": "layer_1_layer_1_layer_0_x"},
+          "y": {"field": "layer_1_layer_1_layer_0_y"},
+          "text": {
+            "signal": "isValid(datum[\"custom_name\"]) ? datum[\"custom_name\"] : \"\"+datum[\"custom_name\"]"
+          },
+          "align": {"value": "center"},
+          "baseline": {"value": "middle"}
+        }
+      }
+    }
+  ],
+  "scales": [
+    {
+      "name": "color",
+      "type": "ordinal",
+      "domain": {
+        "data": "source_0",
+        "field": "Desc_NA_Legend",
+        "sort": {"op": "min", "field": "color_Desc_NA_Legend_sort_index"}
+      },
+      "range": [
+        "black",
+        "#2392b8",
+        "#88F7E2",
+        "#b2ff5c",
+        "#FFA15C",
+        "red",
+        "lightgrey"
+      ]
+    }
+  ],
+  "legends": [
+    {
+      "fill": "color",
+      "direction": "horizontal",
+      "symbolType": "circle",
+      "encode": {
+        "labels": {
+          "name": "Desc_NA_Legend_legend_labels",
+          "interactive": true,
+          "update": {
+            "opacity": [
+              {
+                "test": "(!length(data(\"category_select_store\")) || (category_select[\"Desc_NA_Legend\"] && indexof(category_select[\"Desc_NA_Legend\"], datum.value) >= 0))",
+                "value": 1
+              },
+              {"value": 0.35}
+            ]
+          }
+        },
+        "symbols": {
+          "name": "Desc_NA_Legend_legend_symbols",
+          "interactive": true,
+          "update": {
+            "stroke": {"value": "black"},
+            "opacity": [
+              {
+                "test": "(!length(data(\"category_select_store\")) || (category_select[\"Desc_NA_Legend\"] && indexof(category_select[\"Desc_NA_Legend\"], datum.value) >= 0))",
+                "value": 1
+              },
+              {"value": 0.35}
+            ]
+          }
+        },
+        "entries": {
+          "name": "Desc_NA_Legend_legend_entries",
+          "interactive": true,
+          "update": {"fill": {"value": "transparent"}}
+        }
+      }
+    }
+  ],
+  "config": {
+    "legend": {
+      "orient": "bottom",
+      "titleFontSize": 12,
+      "labelFontSize": 12,
+      "symbolStrokeWidth": 0.3
+    },
+    "style": {"group-title": {"fontSize": 18}}
+  }
+}

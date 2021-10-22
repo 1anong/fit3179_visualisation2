@@ -1,0 +1,769 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v5.json",
+  "background": "white",
+  "padding": 5,
+  "title": {"anchor": "middle", "text": "Comparison of Living Cost Indices"},
+  "data": [
+    {"name": "highlight_store"},
+    {
+      "name": "source_0",
+      "url": "https://raw.githubusercontent.com/1anong/fit3179_visualisation2/main/data/cost_of_living_index_2018.csv",
+      "format": {"type": "csv", "delimiter": ","},
+      "transform": [
+        {"type": "identifier", "as": "_vgsid_"},
+        {
+          "type": "filter",
+          "expr": "datum.City === 'Tbilisi' || datum.City === 'Baku' || datum.City === 'Moscow' || datum.City === 'Oslo' || datum.City === 'Ankara' || datum.City === 'Tehran' || datum.City === 'Yerevan' || datum.City === 'Hyderabad'"
+        },
+        {"type": "formula", "expr": "datum.Rank + ' / 536'", "as": "Rank_Frac"}
+      ]
+    },
+    {
+      "name": "data_1",
+      "source": "source_0",
+      "transform": [
+        {
+          "type": "stack",
+          "groupby": ["City"],
+          "field": "Cost of Living Index",
+          "sort": {"field": [], "order": []},
+          "as": ["Cost of Living Index_start", "Cost of Living Index_end"],
+          "offset": "zero"
+        },
+        {
+          "type": "filter",
+          "expr": "isValid(datum[\"Cost of Living Index\"]) && isFinite(+datum[\"Cost of Living Index\"])"
+        }
+      ]
+    },
+    {
+      "name": "data_2",
+      "source": "source_0",
+      "transform": [
+        {
+          "type": "stack",
+          "groupby": ["City"],
+          "field": "Rent Index",
+          "sort": {"field": [], "order": []},
+          "as": ["Rent Index_start", "Rent Index_end"],
+          "offset": "zero"
+        },
+        {
+          "type": "filter",
+          "expr": "isValid(datum[\"Rent Index\"]) && isFinite(+datum[\"Rent Index\"])"
+        }
+      ]
+    },
+    {
+      "name": "data_3",
+      "source": "source_0",
+      "transform": [
+        {
+          "type": "stack",
+          "groupby": ["City"],
+          "field": "Groceries Index",
+          "sort": {"field": [], "order": []},
+          "as": ["Groceries Index_start", "Groceries Index_end"],
+          "offset": "zero"
+        },
+        {
+          "type": "filter",
+          "expr": "isValid(datum[\"Groceries Index\"]) && isFinite(+datum[\"Groceries Index\"])"
+        }
+      ]
+    },
+    {
+      "name": "data_4",
+      "source": "source_0",
+      "transform": [
+        {
+          "type": "stack",
+          "groupby": ["City"],
+          "field": "Restaurant Price Index",
+          "sort": {"field": [], "order": []},
+          "as": ["Restaurant Price Index_start", "Restaurant Price Index_end"],
+          "offset": "zero"
+        },
+        {
+          "type": "filter",
+          "expr": "isValid(datum[\"Restaurant Price Index\"]) && isFinite(+datum[\"Restaurant Price Index\"])"
+        }
+      ]
+    }
+  ],
+  "signals": [
+    {"name": "childWidth", "value": 300},
+    {"name": "childHeight", "value": 300},
+    {
+      "name": "unit",
+      "value": {},
+      "on": [
+        {"events": "mousemove", "update": "isTuple(group()) ? group() : unit"}
+      ]
+    },
+    {
+      "name": "highlight",
+      "update": "vlSelectionResolve(\"highlight_store\", \"union\", true, true)"
+    }
+  ],
+  "layout": {"padding": 20, "columns": 2, "bounds": "full", "align": "all"},
+  "marks": [
+    {
+      "type": "group",
+      "name": "child__Cost_of_Living_Index_group",
+      "style": "cell",
+      "encode": {
+        "update": {
+          "width": {"signal": "childWidth"},
+          "height": {"signal": "childHeight"}
+        }
+      },
+      "signals": [
+        {
+          "name": "highlight_tuple",
+          "on": [
+            {
+              "events": [{"source": "scope", "type": "mouseover"}],
+              "update": "datum && item().mark.marktype !== 'group' ? {unit: \"child__Cost_of_Living_Index\", fields: highlight_tuple_fields, values: [(item().isVoronoi ? datum.datum : datum)[\"_vgsid_\"]]} : null",
+              "force": true
+            },
+            {
+              "events": [{"source": "view", "type": "dblclick"}],
+              "update": "null"
+            }
+          ]
+        },
+        {
+          "name": "highlight_tuple_fields",
+          "value": [{"type": "E", "field": "_vgsid_"}]
+        },
+        {
+          "name": "highlight_toggle",
+          "value": false,
+          "on": [
+            {
+              "events": [{"source": "scope", "type": "mouseover"}],
+              "update": "event.shiftKey"
+            },
+            {
+              "events": [{"source": "view", "type": "dblclick"}],
+              "update": "false"
+            }
+          ]
+        },
+        {
+          "name": "highlight_modify",
+          "on": [
+            {
+              "events": {"signal": "highlight_tuple"},
+              "update": "modify(\"highlight_store\", highlight_toggle ? null : highlight_tuple, highlight_toggle ? null : true, highlight_toggle ? highlight_tuple : null)"
+            }
+          ]
+        }
+      ],
+      "marks": [
+        {
+          "name": "child__Cost_of_Living_Index_marks",
+          "type": "rect",
+          "style": ["bar"],
+          "interactive": true,
+          "from": {"data": "data_1"},
+          "encode": {
+            "update": {
+              "fill": {"scale": "color", "field": "City"},
+              "opacity": [
+                {"test": "datum.City === 'Tbilisi'", "value": 1},
+                {
+                  "test": "length(data(\"highlight_store\")) && vlSelectionTest(\"highlight_store\", datum)",
+                  "value": 1
+                },
+                {"value": 0.1}
+              ],
+              "tooltip": {
+                "signal": "{\"Country\": isValid(datum[\"Country\"]) ? datum[\"Country\"] : \"\"+datum[\"Country\"], \"City\": isValid(datum[\"City\"]) ? datum[\"City\"] : \"\"+datum[\"City\"], \"Overall Rank\": isValid(datum[\"Rank_Frac\"]) ? datum[\"Rank_Frac\"] : \"\"+datum[\"Rank_Frac\"], \"Cost of Living Index\": format(datum[\"Cost of Living Index\"], \"\")}"
+              },
+              "ariaRoleDescription": {"value": "bar"},
+              "description": {
+                "signal": "\"City: \" + (isValid(datum[\"City\"]) ? datum[\"City\"] : \"\"+datum[\"City\"]) + \"; Cost of Living Index: \" + (format(datum[\"Cost of Living Index\"], \"\")) + \"; Country: \" + (isValid(datum[\"Country\"]) ? datum[\"Country\"] : \"\"+datum[\"Country\"]) + \"; Overall Rank: \" + (isValid(datum[\"Rank_Frac\"]) ? datum[\"Rank_Frac\"] : \"\"+datum[\"Rank_Frac\"])"
+              },
+              "x": {"scale": "child__Cost_of_Living_Index_x", "field": "City"},
+              "width": {"scale": "child__Cost_of_Living_Index_x", "band": 1},
+              "y": {
+                "scale": "child__Cost_of_Living_Index_y",
+                "field": "Cost of Living Index_end"
+              },
+              "y2": {
+                "scale": "child__Cost_of_Living_Index_y",
+                "field": "Cost of Living Index_start"
+              }
+            }
+          }
+        }
+      ],
+      "axes": [
+        {
+          "scale": "child__Cost_of_Living_Index_y",
+          "orient": "left",
+          "gridScale": "child__Cost_of_Living_Index_x",
+          "grid": true,
+          "tickCount": {"signal": "ceil(childHeight/40)"},
+          "domain": false,
+          "labels": false,
+          "aria": false,
+          "maxExtent": 0,
+          "minExtent": 0,
+          "ticks": false,
+          "zindex": 0
+        },
+        {
+          "scale": "child__Cost_of_Living_Index_x",
+          "orient": "bottom",
+          "grid": false,
+          "title": "City",
+          "labelFontSize": 12,
+          "titleFontSize": 14,
+          "labelAlign": "right",
+          "labelAngle": 270,
+          "labelBaseline": "middle",
+          "zindex": 0
+        },
+        {
+          "scale": "child__Cost_of_Living_Index_y",
+          "orient": "left",
+          "grid": false,
+          "title": "Cost of Living Index",
+          "labelFontSize": 12,
+          "titleFontSize": 14,
+          "labelOverlap": true,
+          "tickCount": {"signal": "ceil(childHeight/40)"},
+          "zindex": 0
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "name": "child__Rent_Index_group",
+      "style": "cell",
+      "encode": {
+        "update": {
+          "width": {"signal": "childWidth"},
+          "height": {"signal": "childHeight"}
+        }
+      },
+      "signals": [
+        {
+          "name": "highlight_tuple",
+          "on": [
+            {
+              "events": [{"source": "scope", "type": "mouseover"}],
+              "update": "datum && item().mark.marktype !== 'group' ? {unit: \"child__Rent_Index\", fields: highlight_tuple_fields, values: [(item().isVoronoi ? datum.datum : datum)[\"_vgsid_\"]]} : null",
+              "force": true
+            },
+            {
+              "events": [{"source": "view", "type": "dblclick"}],
+              "update": "null"
+            }
+          ]
+        },
+        {
+          "name": "highlight_tuple_fields",
+          "value": [{"type": "E", "field": "_vgsid_"}]
+        },
+        {
+          "name": "highlight_toggle",
+          "value": false,
+          "on": [
+            {
+              "events": [{"source": "scope", "type": "mouseover"}],
+              "update": "event.shiftKey"
+            },
+            {
+              "events": [{"source": "view", "type": "dblclick"}],
+              "update": "false"
+            }
+          ]
+        },
+        {
+          "name": "highlight_modify",
+          "on": [
+            {
+              "events": {"signal": "highlight_tuple"},
+              "update": "modify(\"highlight_store\", highlight_toggle ? null : highlight_tuple, highlight_toggle ? null : true, highlight_toggle ? highlight_tuple : null)"
+            }
+          ]
+        }
+      ],
+      "marks": [
+        {
+          "name": "child__Rent_Index_marks",
+          "type": "rect",
+          "style": ["bar"],
+          "interactive": true,
+          "from": {"data": "data_2"},
+          "encode": {
+            "update": {
+              "fill": {"scale": "color", "field": "City"},
+              "opacity": [
+                {"test": "datum.City === 'Tbilisi'", "value": 1},
+                {
+                  "test": "length(data(\"highlight_store\")) && vlSelectionTest(\"highlight_store\", datum)",
+                  "value": 1
+                },
+                {"value": 0.1}
+              ],
+              "tooltip": {
+                "signal": "{\"Country\": isValid(datum[\"Country\"]) ? datum[\"Country\"] : \"\"+datum[\"Country\"], \"City\": isValid(datum[\"City\"]) ? datum[\"City\"] : \"\"+datum[\"City\"], \"Overall Rank\": isValid(datum[\"Rank_Frac\"]) ? datum[\"Rank_Frac\"] : \"\"+datum[\"Rank_Frac\"], \"Rent Index\": format(datum[\"Rent Index\"], \"\")}"
+              },
+              "ariaRoleDescription": {"value": "bar"},
+              "description": {
+                "signal": "\"City: \" + (isValid(datum[\"City\"]) ? datum[\"City\"] : \"\"+datum[\"City\"]) + \"; Rent Index: \" + (format(datum[\"Rent Index\"], \"\")) + \"; Country: \" + (isValid(datum[\"Country\"]) ? datum[\"Country\"] : \"\"+datum[\"Country\"]) + \"; Overall Rank: \" + (isValid(datum[\"Rank_Frac\"]) ? datum[\"Rank_Frac\"] : \"\"+datum[\"Rank_Frac\"])"
+              },
+              "x": {"scale": "child__Rent_Index_x", "field": "City"},
+              "width": {"scale": "child__Rent_Index_x", "band": 1},
+              "y": {"scale": "child__Rent_Index_y", "field": "Rent Index_end"},
+              "y2": {
+                "scale": "child__Rent_Index_y",
+                "field": "Rent Index_start"
+              }
+            }
+          }
+        }
+      ],
+      "axes": [
+        {
+          "scale": "child__Rent_Index_y",
+          "orient": "left",
+          "gridScale": "child__Rent_Index_x",
+          "grid": true,
+          "tickCount": {"signal": "ceil(childHeight/40)"},
+          "domain": false,
+          "labels": false,
+          "aria": false,
+          "maxExtent": 0,
+          "minExtent": 0,
+          "ticks": false,
+          "zindex": 0
+        },
+        {
+          "scale": "child__Rent_Index_x",
+          "orient": "bottom",
+          "grid": false,
+          "title": "City",
+          "labelFontSize": 12,
+          "titleFontSize": 14,
+          "labelAlign": "right",
+          "labelAngle": 270,
+          "labelBaseline": "middle",
+          "zindex": 0
+        },
+        {
+          "scale": "child__Rent_Index_y",
+          "orient": "left",
+          "grid": false,
+          "title": "Rent Index",
+          "labelFontSize": 12,
+          "titleFontSize": 14,
+          "labelOverlap": true,
+          "tickCount": {"signal": "ceil(childHeight/40)"},
+          "zindex": 0
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "name": "child__Groceries_Index_group",
+      "style": "cell",
+      "encode": {
+        "update": {
+          "width": {"signal": "childWidth"},
+          "height": {"signal": "childHeight"}
+        }
+      },
+      "signals": [
+        {
+          "name": "highlight_tuple",
+          "on": [
+            {
+              "events": [{"source": "scope", "type": "mouseover"}],
+              "update": "datum && item().mark.marktype !== 'group' ? {unit: \"child__Groceries_Index\", fields: highlight_tuple_fields, values: [(item().isVoronoi ? datum.datum : datum)[\"_vgsid_\"]]} : null",
+              "force": true
+            },
+            {
+              "events": [{"source": "view", "type": "dblclick"}],
+              "update": "null"
+            }
+          ]
+        },
+        {
+          "name": "highlight_tuple_fields",
+          "value": [{"type": "E", "field": "_vgsid_"}]
+        },
+        {
+          "name": "highlight_toggle",
+          "value": false,
+          "on": [
+            {
+              "events": [{"source": "scope", "type": "mouseover"}],
+              "update": "event.shiftKey"
+            },
+            {
+              "events": [{"source": "view", "type": "dblclick"}],
+              "update": "false"
+            }
+          ]
+        },
+        {
+          "name": "highlight_modify",
+          "on": [
+            {
+              "events": {"signal": "highlight_tuple"},
+              "update": "modify(\"highlight_store\", highlight_toggle ? null : highlight_tuple, highlight_toggle ? null : true, highlight_toggle ? highlight_tuple : null)"
+            }
+          ]
+        }
+      ],
+      "marks": [
+        {
+          "name": "child__Groceries_Index_marks",
+          "type": "rect",
+          "style": ["bar"],
+          "interactive": true,
+          "from": {"data": "data_3"},
+          "encode": {
+            "update": {
+              "fill": {"scale": "color", "field": "City"},
+              "opacity": [
+                {"test": "datum.City === 'Tbilisi'", "value": 1},
+                {
+                  "test": "length(data(\"highlight_store\")) && vlSelectionTest(\"highlight_store\", datum)",
+                  "value": 1
+                },
+                {"value": 0.1}
+              ],
+              "tooltip": {
+                "signal": "{\"Country\": isValid(datum[\"Country\"]) ? datum[\"Country\"] : \"\"+datum[\"Country\"], \"City\": isValid(datum[\"City\"]) ? datum[\"City\"] : \"\"+datum[\"City\"], \"Overall Rank\": isValid(datum[\"Rank_Frac\"]) ? datum[\"Rank_Frac\"] : \"\"+datum[\"Rank_Frac\"], \"Groceries Index\": format(datum[\"Groceries Index\"], \"\")}"
+              },
+              "ariaRoleDescription": {"value": "bar"},
+              "description": {
+                "signal": "\"City: \" + (isValid(datum[\"City\"]) ? datum[\"City\"] : \"\"+datum[\"City\"]) + \"; Groceries Index: \" + (format(datum[\"Groceries Index\"], \"\")) + \"; Country: \" + (isValid(datum[\"Country\"]) ? datum[\"Country\"] : \"\"+datum[\"Country\"]) + \"; Overall Rank: \" + (isValid(datum[\"Rank_Frac\"]) ? datum[\"Rank_Frac\"] : \"\"+datum[\"Rank_Frac\"])"
+              },
+              "x": {"scale": "child__Groceries_Index_x", "field": "City"},
+              "width": {"scale": "child__Groceries_Index_x", "band": 1},
+              "y": {
+                "scale": "child__Groceries_Index_y",
+                "field": "Groceries Index_end"
+              },
+              "y2": {
+                "scale": "child__Groceries_Index_y",
+                "field": "Groceries Index_start"
+              }
+            }
+          }
+        }
+      ],
+      "axes": [
+        {
+          "scale": "child__Groceries_Index_y",
+          "orient": "left",
+          "gridScale": "child__Groceries_Index_x",
+          "grid": true,
+          "tickCount": {"signal": "ceil(childHeight/40)"},
+          "domain": false,
+          "labels": false,
+          "aria": false,
+          "maxExtent": 0,
+          "minExtent": 0,
+          "ticks": false,
+          "zindex": 0
+        },
+        {
+          "scale": "child__Groceries_Index_x",
+          "orient": "bottom",
+          "grid": false,
+          "title": "City",
+          "labelFontSize": 12,
+          "titleFontSize": 14,
+          "labelAlign": "right",
+          "labelAngle": 270,
+          "labelBaseline": "middle",
+          "zindex": 0
+        },
+        {
+          "scale": "child__Groceries_Index_y",
+          "orient": "left",
+          "grid": false,
+          "title": "Groceries Index",
+          "labelFontSize": 12,
+          "titleFontSize": 14,
+          "labelOverlap": true,
+          "tickCount": {"signal": "ceil(childHeight/40)"},
+          "zindex": 0
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "name": "child__Restaurant_Price_Index_group",
+      "style": "cell",
+      "encode": {
+        "update": {
+          "width": {"signal": "childWidth"},
+          "height": {"signal": "childHeight"}
+        }
+      },
+      "signals": [
+        {
+          "name": "highlight_tuple",
+          "on": [
+            {
+              "events": [{"source": "scope", "type": "mouseover"}],
+              "update": "datum && item().mark.marktype !== 'group' ? {unit: \"child__Restaurant_Price_Index\", fields: highlight_tuple_fields, values: [(item().isVoronoi ? datum.datum : datum)[\"_vgsid_\"]]} : null",
+              "force": true
+            },
+            {
+              "events": [{"source": "view", "type": "dblclick"}],
+              "update": "null"
+            }
+          ]
+        },
+        {
+          "name": "highlight_tuple_fields",
+          "value": [{"type": "E", "field": "_vgsid_"}]
+        },
+        {
+          "name": "highlight_toggle",
+          "value": false,
+          "on": [
+            {
+              "events": [{"source": "scope", "type": "mouseover"}],
+              "update": "event.shiftKey"
+            },
+            {
+              "events": [{"source": "view", "type": "dblclick"}],
+              "update": "false"
+            }
+          ]
+        },
+        {
+          "name": "highlight_modify",
+          "on": [
+            {
+              "events": {"signal": "highlight_tuple"},
+              "update": "modify(\"highlight_store\", highlight_toggle ? null : highlight_tuple, highlight_toggle ? null : true, highlight_toggle ? highlight_tuple : null)"
+            }
+          ]
+        }
+      ],
+      "marks": [
+        {
+          "name": "child__Restaurant_Price_Index_marks",
+          "type": "rect",
+          "style": ["bar"],
+          "interactive": true,
+          "from": {"data": "data_4"},
+          "encode": {
+            "update": {
+              "fill": {"scale": "color", "field": "City"},
+              "opacity": [
+                {"test": "datum.City === 'Tbilisi'", "value": 1},
+                {
+                  "test": "length(data(\"highlight_store\")) && vlSelectionTest(\"highlight_store\", datum)",
+                  "value": 1
+                },
+                {"value": 0.1}
+              ],
+              "tooltip": {
+                "signal": "{\"Country\": isValid(datum[\"Country\"]) ? datum[\"Country\"] : \"\"+datum[\"Country\"], \"City\": isValid(datum[\"City\"]) ? datum[\"City\"] : \"\"+datum[\"City\"], \"Overall Rank\": isValid(datum[\"Rank_Frac\"]) ? datum[\"Rank_Frac\"] : \"\"+datum[\"Rank_Frac\"], \"Restaurant Price Index\": format(datum[\"Restaurant Price Index\"], \"\")}"
+              },
+              "ariaRoleDescription": {"value": "bar"},
+              "description": {
+                "signal": "\"City: \" + (isValid(datum[\"City\"]) ? datum[\"City\"] : \"\"+datum[\"City\"]) + \"; Restaurant Price Index: \" + (format(datum[\"Restaurant Price Index\"], \"\")) + \"; Country: \" + (isValid(datum[\"Country\"]) ? datum[\"Country\"] : \"\"+datum[\"Country\"]) + \"; Overall Rank: \" + (isValid(datum[\"Rank_Frac\"]) ? datum[\"Rank_Frac\"] : \"\"+datum[\"Rank_Frac\"])"
+              },
+              "x": {
+                "scale": "child__Restaurant_Price_Index_x",
+                "field": "City"
+              },
+              "width": {"scale": "child__Restaurant_Price_Index_x", "band": 1},
+              "y": {
+                "scale": "child__Restaurant_Price_Index_y",
+                "field": "Restaurant Price Index_end"
+              },
+              "y2": {
+                "scale": "child__Restaurant_Price_Index_y",
+                "field": "Restaurant Price Index_start"
+              }
+            }
+          }
+        }
+      ],
+      "axes": [
+        {
+          "scale": "child__Restaurant_Price_Index_y",
+          "orient": "left",
+          "gridScale": "child__Restaurant_Price_Index_x",
+          "grid": true,
+          "tickCount": {"signal": "ceil(childHeight/40)"},
+          "domain": false,
+          "labels": false,
+          "aria": false,
+          "maxExtent": 0,
+          "minExtent": 0,
+          "ticks": false,
+          "zindex": 0
+        },
+        {
+          "scale": "child__Restaurant_Price_Index_x",
+          "orient": "bottom",
+          "grid": false,
+          "title": "City",
+          "labelFontSize": 12,
+          "titleFontSize": 14,
+          "labelAlign": "right",
+          "labelAngle": 270,
+          "labelBaseline": "middle",
+          "zindex": 0
+        },
+        {
+          "scale": "child__Restaurant_Price_Index_y",
+          "orient": "left",
+          "grid": false,
+          "title": "Restaurant Price Index",
+          "labelFontSize": 12,
+          "titleFontSize": 14,
+          "labelOverlap": true,
+          "tickCount": {"signal": "ceil(childHeight/40)"},
+          "zindex": 0
+        }
+      ]
+    }
+  ],
+  "scales": [
+    {
+      "name": "color",
+      "type": "ordinal",
+      "domain": {
+        "fields": [
+          {"data": "data_1", "field": "City"},
+          {"data": "data_2", "field": "City"},
+          {"data": "data_3", "field": "City"},
+          {"data": "data_4", "field": "City"}
+        ],
+        "sort": true
+      },
+      "range": [
+        "#8CBEB2",
+        "#F3B562",
+        "#FB96BB",
+        "#74929f",
+        "#7b656d",
+        "#F06060",
+        "#F2EBBF",
+        "#f4faa4"
+      ]
+    },
+    {
+      "name": "child__Cost_of_Living_Index_x",
+      "type": "band",
+      "domain": {
+        "data": "source_0",
+        "field": "City",
+        "sort": {
+          "op": "sum",
+          "field": "Cost of Living Index",
+          "order": "descending"
+        }
+      },
+      "range": [0, {"signal": "childWidth"}],
+      "paddingInner": 0.1,
+      "paddingOuter": 0.05
+    },
+    {
+      "name": "child__Cost_of_Living_Index_y",
+      "type": "linear",
+      "domain": {
+        "data": "data_1",
+        "fields": ["Cost of Living Index_start", "Cost of Living Index_end"]
+      },
+      "range": [{"signal": "childHeight"}, 0],
+      "nice": true,
+      "zero": true
+    },
+    {
+      "name": "child__Rent_Index_x",
+      "type": "band",
+      "domain": {
+        "data": "source_0",
+        "field": "City",
+        "sort": {"op": "sum", "field": "Rent Index", "order": "descending"}
+      },
+      "range": [0, {"signal": "childWidth"}],
+      "paddingInner": 0.1,
+      "paddingOuter": 0.05
+    },
+    {
+      "name": "child__Rent_Index_y",
+      "type": "linear",
+      "domain": {
+        "data": "data_2",
+        "fields": ["Rent Index_start", "Rent Index_end"]
+      },
+      "range": [{"signal": "childHeight"}, 0],
+      "nice": true,
+      "zero": true
+    },
+    {
+      "name": "child__Groceries_Index_x",
+      "type": "band",
+      "domain": {
+        "data": "source_0",
+        "field": "City",
+        "sort": {"op": "sum", "field": "Groceries Index", "order": "descending"}
+      },
+      "range": [0, {"signal": "childWidth"}],
+      "paddingInner": 0.1,
+      "paddingOuter": 0.05
+    },
+    {
+      "name": "child__Groceries_Index_y",
+      "type": "linear",
+      "domain": {
+        "data": "data_3",
+        "fields": ["Groceries Index_start", "Groceries Index_end"]
+      },
+      "range": [{"signal": "childHeight"}, 0],
+      "nice": true,
+      "zero": true
+    },
+    {
+      "name": "child__Restaurant_Price_Index_x",
+      "type": "band",
+      "domain": {
+        "data": "source_0",
+        "field": "City",
+        "sort": {
+          "op": "sum",
+          "field": "Restaurant Price Index",
+          "order": "descending"
+        }
+      },
+      "range": [0, {"signal": "childWidth"}],
+      "paddingInner": 0.1,
+      "paddingOuter": 0.05
+    },
+    {
+      "name": "child__Restaurant_Price_Index_y",
+      "type": "linear",
+      "domain": {
+        "data": "data_4",
+        "fields": ["Restaurant Price Index_start", "Restaurant Price Index_end"]
+      },
+      "range": [{"signal": "childHeight"}, 0],
+      "nice": true,
+      "zero": true
+    }
+  ],
+  "config": {
+    "legend": {"disable": true},
+    "style": {"group-title": {"fontSize": 20}}
+  }
+}

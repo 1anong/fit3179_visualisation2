@@ -1,0 +1,254 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v5.json",
+  "background": "white",
+  "padding": 5,
+  "width": 800,
+  "height": 600,
+  "title": {
+    "text": "Population Distribution of Georgia by Municipality",
+    "frame": "group"
+  },
+  "data": [
+    {"name": "highlight_store"},
+    {
+      "name": "source_1",
+      "url": "https://raw.githubusercontent.com/1anong/fit3179_visualisation2/main/data/georgia_population_2019.csv",
+      "format": {"type": "csv", "delimiter": ","}
+    },
+    {
+      "name": "source_2",
+      "values": [
+        {"long": 44.783333, "lat": 41.716667, "custom_name": "Tbilisi"}
+      ]
+    },
+    {
+      "name": "source_0",
+      "url": "https://raw.githubusercontent.com/1anong/fit3179_homework9/main/SubRegions_low_quality_topo.json",
+      "format": {
+        "type": "topojson",
+        "feature": "georgian_subregions",
+        "parse": {}
+      },
+      "transform": [
+        {
+          "type": "formula",
+          "expr": "datum[\"properties\"] && datum[\"properties\"][\"NAME_2\"]",
+          "as": "properties.NAME_2"
+        },
+        {"type": "identifier", "as": "_vgsid_"},
+        {
+          "type": "lookup",
+          "from": "source_1",
+          "key": "ADM2_EN",
+          "fields": ["properties.NAME_2"],
+          "values": ["POP_FINAL", "ADM1_EN", "DENSITY", "PART"]
+        },
+        {
+          "type": "filter",
+          "expr": "isValid(datum[\"DENSITY\"]) && isFinite(+datum[\"DENSITY\"])"
+        }
+      ]
+    },
+    {
+      "name": "data_0",
+      "source": "source_2",
+      "transform": [{"type": "identifier", "as": "_vgsid_"}]
+    },
+    {
+      "name": "data_1",
+      "source": "data_0",
+      "transform": [
+        {
+          "type": "geojson",
+          "fields": ["long", "lat"],
+          "signal": "layer_1_layer_0_geojson_0"
+        },
+        {
+          "type": "geopoint",
+          "projection": "projection",
+          "fields": ["long", "lat"],
+          "as": ["layer_1_layer_0_x", "layer_1_layer_0_y"]
+        }
+      ]
+    },
+    {
+      "name": "data_2",
+      "source": "data_0",
+      "transform": [
+        {
+          "type": "geojson",
+          "fields": ["long", "lat"],
+          "signal": "layer_1_layer_1_geojson_0"
+        },
+        {
+          "type": "geopoint",
+          "projection": "projection",
+          "fields": ["long", "lat"],
+          "as": ["layer_1_layer_1_x", "layer_1_layer_1_y"]
+        }
+      ]
+    }
+  ],
+  "projections": [
+    {
+      "name": "projection",
+      "size": {"signal": "[width, height]"},
+      "fit": {
+        "signal": "[data('source_0'), layer_1_layer_0_geojson_0, layer_1_layer_1_geojson_0]"
+      },
+      "type": "conicEqualArea"
+    }
+  ],
+  "signals": [
+    {
+      "name": "unit",
+      "value": {},
+      "on": [
+        {"events": "mousemove", "update": "isTuple(group()) ? group() : unit"}
+      ]
+    },
+    {
+      "name": "highlight",
+      "update": "vlSelectionResolve(\"highlight_store\", \"union\", true, true)"
+    },
+    {
+      "name": "highlight_tuple",
+      "on": [
+        {
+          "events": [{"source": "scope", "type": "mouseover"}],
+          "update": "datum && item().mark.marktype !== 'group' ? {unit: \"layer_0\", fields: highlight_tuple_fields, values: [(item().isVoronoi ? datum.datum : datum)[\"_vgsid_\"]]} : null",
+          "force": true
+        },
+        {"events": [{"source": "view", "type": "dblclick"}], "update": "null"}
+      ]
+    },
+    {
+      "name": "highlight_tuple_fields",
+      "value": [{"type": "E", "field": "_vgsid_"}]
+    },
+    {
+      "name": "highlight_toggle",
+      "value": false,
+      "on": [
+        {
+          "events": [{"source": "scope", "type": "mouseover"}],
+          "update": "event.shiftKey"
+        },
+        {"events": [{"source": "view", "type": "dblclick"}], "update": "false"}
+      ]
+    },
+    {
+      "name": "highlight_modify",
+      "on": [
+        {
+          "events": {"signal": "highlight_tuple"},
+          "update": "modify(\"highlight_store\", highlight_toggle ? null : highlight_tuple, highlight_toggle ? null : true, highlight_toggle ? highlight_tuple : null)"
+        }
+      ]
+    }
+  ],
+  "marks": [
+    {
+      "name": "layer_0_marks",
+      "type": "shape",
+      "style": ["geoshape"],
+      "interactive": true,
+      "from": {"data": "source_0"},
+      "encode": {
+        "update": {
+          "stroke": {"value": "#e5e5e5"},
+          "fill": {"scale": "color", "field": "DENSITY"},
+          "strokeWidth": [
+            {
+              "test": "length(data(\"highlight_store\")) && vlSelectionTest(\"highlight_store\", datum)",
+              "value": 5
+            },
+            {"value": 1}
+          ],
+          "tooltip": {
+            "signal": "{\"Municipality\": isValid(datum[\"properties.NAME_2\"]) ? datum[\"properties.NAME_2\"] : \"\"+datum[\"properties.NAME_2\"], \"Admin. Region\": isValid(datum[\"ADM1_EN\"]) ? datum[\"ADM1_EN\"] : \"\"+datum[\"ADM1_EN\"], \"Population\": format(datum[\"POP_FINAL\"], \",\"), \"% of National Population\": format(datum[\"PART\"], \"\"), \"Pop. Density (pop/km²)\": format(datum[\"DENSITY\"], \"\")}"
+          },
+          "ariaRoleDescription": {"value": "geoshape"},
+          "description": {
+            "signal": "\"Population: \" + (format(datum[\"DENSITY\"], \"\")) + \"; Municipality: \" + (isValid(datum[\"properties.NAME_2\"]) ? datum[\"properties.NAME_2\"] : \"\"+datum[\"properties.NAME_2\"]) + \"; Admin. Region: \" + (isValid(datum[\"ADM1_EN\"]) ? datum[\"ADM1_EN\"] : \"\"+datum[\"ADM1_EN\"]) + \"; % of National Population: \" + (format(datum[\"PART\"], \"\")) + \"; Pop. Density (pop/km²): \" + (format(datum[\"DENSITY\"], \"\"))"
+          }
+        }
+      },
+      "transform": [{"type": "geoshape", "projection": "projection"}]
+    },
+    {
+      "name": "layer_1_layer_0_marks",
+      "type": "symbol",
+      "style": ["circle"],
+      "interactive": false,
+      "from": {"data": "data_1"},
+      "encode": {
+        "update": {
+          "opacity": {"value": 0.7},
+          "fill": {"value": "red"},
+          "ariaRoleDescription": {"value": "circle"},
+          "description": {
+            "signal": "\"long: \" + (format(datum[\"long\"], \"\")) + \"; lat: \" + (format(datum[\"lat\"], \"\"))"
+          },
+          "x": {"field": "layer_1_layer_0_x"},
+          "y": {"field": "layer_1_layer_0_y"},
+          "shape": {"value": "circle"}
+        }
+      }
+    },
+    {
+      "name": "layer_1_layer_1_marks",
+      "type": "text",
+      "style": ["text"],
+      "interactive": false,
+      "from": {"data": "data_2"},
+      "encode": {
+        "update": {
+          "dy": {"value": -20},
+          "fontSize": {"value": 14},
+          "fontWeight": {"value": "bold"},
+          "fill": {"value": "#f2f2f2"},
+          "description": {
+            "signal": "\"long: \" + (format(datum[\"long\"], \"\")) + \"; lat: \" + (format(datum[\"lat\"], \"\")) + \"; custom_name: \" + (isValid(datum[\"custom_name\"]) ? datum[\"custom_name\"] : \"\"+datum[\"custom_name\"])"
+          },
+          "x": {"field": "layer_1_layer_1_x"},
+          "y": {"field": "layer_1_layer_1_y"},
+          "text": {
+            "signal": "isValid(datum[\"custom_name\"]) ? datum[\"custom_name\"] : \"\"+datum[\"custom_name\"]"
+          },
+          "align": {"value": "center"},
+          "baseline": {"value": "middle"}
+        }
+      }
+    }
+  ],
+  "scales": [
+    {
+      "name": "color",
+      "type": "threshold",
+      "domain": [1, 25, 50, 100, 200, 500, 1000, 2000],
+      "range": [
+        "#b8ffee",
+        "#00c7d5",
+        "#00aac7",
+        "#008db6",
+        "#0071a2",
+        "#00558a",
+        "#003b6f",
+        "#013b8a",
+        "#041a38"
+      ],
+      "interpolate": "hcl"
+    }
+  ],
+  "legends": [
+    {
+      "title": "Pop. density (pop/km²)",
+      "fill": "color",
+      "labelOverlap": "greedy",
+      "symbolType": "circle",
+      "encode": {"symbols": {"update": {"stroke": {"value": "#e5e5e5"}}}}
+    }
+  ],
+  "config": {}
+}

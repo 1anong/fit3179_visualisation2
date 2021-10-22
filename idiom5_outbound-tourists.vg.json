@@ -1,0 +1,193 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v5.json",
+  "background": "white",
+  "padding": 5,
+  "width": 500,
+  "height": 500,
+  "title": {
+    "text": "Distribution of Georgian Outbound Tourism (2019)",
+    "dy": -30,
+    "fontSize": 20,
+    "frame": "group"
+  },
+  "data": [
+    {
+      "name": "source_0",
+      "url": "https://raw.githubusercontent.com/1anong/fit3179_visualisation2/main/data/georgia_outbound_tourism_2019.csv",
+      "format": {"type": "csv", "delimiter": ","}
+    },
+    {
+      "name": "data_0",
+      "source": "source_0",
+      "transform": [
+        {
+          "type": "stack",
+          "groupby": [],
+          "field": "number_of_visits",
+          "sort": {"field": ["value"], "order": ["descending"]},
+          "as": ["number_of_visits_start", "number_of_visits_end"],
+          "offset": "zero"
+        },
+        {
+          "type": "filter",
+          "expr": "isValid(datum[\"number_of_visits\"]) && isFinite(+datum[\"number_of_visits\"])"
+        }
+      ]
+    },
+    {
+      "name": "data_1",
+      "source": "source_0",
+      "transform": [
+        {"type": "formula", "expr": "datum.percent + '%'", "as": "percent%"},
+        {
+          "type": "stack",
+          "groupby": [],
+          "field": "number_of_visits",
+          "sort": {"field": ["value"], "order": ["descending"]},
+          "as": ["number_of_visits_start", "number_of_visits_end"],
+          "offset": "zero"
+        },
+        {
+          "type": "filter",
+          "expr": "isValid(datum[\"number_of_visits\"]) && isFinite(+datum[\"number_of_visits\"])"
+        }
+      ]
+    },
+    {
+      "name": "data_2",
+      "source": "source_0",
+      "transform": [
+        {
+          "type": "stack",
+          "groupby": [],
+          "field": "number_of_visits",
+          "sort": {"field": ["value"], "order": ["descending"]},
+          "as": ["number_of_visits_start", "number_of_visits_end"],
+          "offset": "zero"
+        },
+        {
+          "type": "filter",
+          "expr": "isValid(datum[\"number_of_visits\"]) && isFinite(+datum[\"number_of_visits\"])"
+        }
+      ]
+    }
+  ],
+  "marks": [
+    {
+      "name": "layer_0_marks",
+      "type": "arc",
+      "style": ["arc"],
+      "from": {"data": "data_0"},
+      "encode": {
+        "update": {
+          "stroke": {"value": "white"},
+          "innerRadius": {"value": 110},
+          "fill": {"scale": "color", "field": "destination_country"},
+          "tooltip": {
+            "signal": "{\"Country\": isValid(datum[\"destination_country\"]) ? datum[\"destination_country\"] : \"\"+datum[\"destination_country\"], \"Number of visits\": format(datum[\"number_of_visits\"], \",\"), \"% of total\": isValid(datum[\"percent\"]) ? datum[\"percent\"] : \"\"+datum[\"percent\"]}"
+          },
+          "description": {
+            "signal": "\"number_of_visits: \" + (format(datum[\"number_of_visits\"], \"\")) + \"; value: \" + (isValid(datum[\"value\"]) ? datum[\"value\"] : \"\"+datum[\"value\"]) + \"; destination_country: \" + (isValid(datum[\"destination_country\"]) ? datum[\"destination_country\"] : \"\"+datum[\"destination_country\"]) + \"; Country: \" + (isValid(datum[\"destination_country\"]) ? datum[\"destination_country\"] : \"\"+datum[\"destination_country\"]) + \"; Number of visits: \" + (format(datum[\"number_of_visits\"], \",\")) + \"; % of total: \" + (isValid(datum[\"percent\"]) ? datum[\"percent\"] : \"\"+datum[\"percent\"])"
+          },
+          "x": {"signal": "width", "mult": 0.5},
+          "y": {"signal": "height", "mult": 0.5},
+          "outerRadius": {"signal": "min(width,height)/2"},
+          "startAngle": {"scale": "theta", "field": "number_of_visits_end"},
+          "endAngle": {"scale": "theta", "field": "number_of_visits_start"}
+        }
+      }
+    },
+    {
+      "name": "layer_1_marks",
+      "type": "text",
+      "style": ["text"],
+      "from": {"data": "data_1"},
+      "encode": {
+        "update": {
+          "radius": {"value": 180},
+          "fontSize": {"value": 16},
+          "fontWeight": {"value": "bold"},
+          "fill": {"value": "#333"},
+          "description": {
+            "signal": "\"number_of_visits: \" + (format(datum[\"number_of_visits\"], \"\")) + \"; value: \" + (isValid(datum[\"value\"]) ? datum[\"value\"] : \"\"+datum[\"value\"]) + \"; percent%: \" + (isValid(datum[\"percent%\"]) ? datum[\"percent%\"] : \"\"+datum[\"percent%\"])"
+          },
+          "x": {"signal": "width", "mult": 0.5},
+          "y": {"signal": "height", "mult": 0.5},
+          "text": {
+            "signal": "isValid(datum[\"percent%\"]) ? datum[\"percent%\"] : \"\"+datum[\"percent%\"]"
+          },
+          "align": {"value": "center"},
+          "baseline": {"value": "middle"},
+          "theta": {
+            "signal": "scale(\"theta\", 0.5 * datum[\"number_of_visits_start\"] + 0.5 * datum[\"number_of_visits_end\"])"
+          }
+        }
+      }
+    },
+    {
+      "name": "layer_2_marks",
+      "type": "text",
+      "style": ["text"],
+      "from": {"data": "data_2"},
+      "encode": {
+        "update": {
+          "dy": {"value": 18},
+          "radius": {"value": 178},
+          "fontSize": {"value": 16},
+          "fontWeight": {"value": "bold"},
+          "fill": {"value": "#333"},
+          "description": {
+            "signal": "\"number_of_visits: \" + (format(datum[\"number_of_visits\"], \"\")) + \"; value: \" + (isValid(datum[\"value\"]) ? datum[\"value\"] : \"\"+datum[\"value\"]) + \"; destination_country: \" + (isValid(datum[\"destination_country\"]) ? datum[\"destination_country\"] : \"\"+datum[\"destination_country\"])"
+          },
+          "x": {"signal": "width", "mult": 0.5},
+          "y": {"signal": "height", "mult": 0.5},
+          "text": {
+            "signal": "isValid(datum[\"destination_country\"]) ? datum[\"destination_country\"] : \"\"+datum[\"destination_country\"]"
+          },
+          "align": {"value": "center"},
+          "baseline": {"value": "middle"},
+          "theta": {
+            "signal": "scale(\"theta\", 0.5 * datum[\"number_of_visits_start\"] + 0.5 * datum[\"number_of_visits_end\"])"
+          }
+        }
+      }
+    }
+  ],
+  "scales": [
+    {
+      "name": "theta",
+      "type": "linear",
+      "domain": {
+        "fields": [
+          {"data": "data_0", "field": "number_of_visits_start"},
+          {"data": "data_0", "field": "number_of_visits_end"},
+          {"data": "data_1", "field": "number_of_visits_start"},
+          {"data": "data_1", "field": "number_of_visits_end"},
+          {"data": "data_2", "field": "number_of_visits_start"},
+          {"data": "data_2", "field": "number_of_visits_end"}
+        ]
+      },
+      "range": [0, 6.283185307179586],
+      "zero": true
+    },
+    {
+      "name": "color",
+      "type": "ordinal",
+      "domain": {
+        "data": "data_0",
+        "field": "destination_country",
+        "sort": true
+      },
+      "range": [
+        "#8CBEB2",
+        "#F2EBBF",
+        "#f4faa4",
+        "#a18d94",
+        "#74929f",
+        "#F3B562",
+        "#f38484"
+      ]
+    }
+  ],
+  "config": {}
+}

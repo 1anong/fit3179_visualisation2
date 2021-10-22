@@ -1,0 +1,240 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v5.json",
+  "background": "white",
+  "padding": 5,
+  "width": 1200,
+  "height": 600,
+  "title": {
+    "text": "Georgia's incoming tourists vs other countries, grouped by continent",
+    "frame": "group"
+  },
+  "style": "cell",
+  "data": [
+    {"name": "country_highlight_store"},
+    {
+      "name": "source_0",
+      "url": "https://raw.githubusercontent.com/1anong/fit3179_visualisation2/main/data/incoming_tourism_stats_2010-2018_long.csv",
+      "format": {"type": "csv", "delimiter": ","},
+      "transform": [
+        {"type": "identifier", "as": "_vgsid_"},
+        {"type": "filter", "expr": "datum.Year == year_select"}
+      ]
+    },
+    {
+      "name": "data_0",
+      "source": "source_0",
+      "transform": [
+        {
+          "type": "aggregate",
+          "groupby": [
+            "Continent",
+            "Country Name",
+            "Country Code",
+            "Tourists",
+            "Rank",
+            "Percentage_Continent",
+            "Percentage_World"
+          ],
+          "ops": ["sum"],
+          "fields": ["Tourists"],
+          "as": ["sum_Tourists"]
+        },
+        {"type": "identifier", "as": "_vgsid_"},
+        {
+          "type": "stack",
+          "groupby": ["Continent"],
+          "field": "sum_Tourists",
+          "sort": {"field": ["sum_Tourists"], "order": ["descending"]},
+          "as": ["sum_Tourists_start", "sum_Tourists_end"],
+          "offset": "zero"
+        },
+        {
+          "type": "filter",
+          "expr": "isValid(datum[\"sum_Tourists\"]) && isFinite(+datum[\"sum_Tourists\"])"
+        }
+      ]
+    }
+  ],
+  "signals": [
+    {
+      "name": "unit",
+      "value": {},
+      "on": [
+        {"events": "mousemove", "update": "isTuple(group()) ? group() : unit"}
+      ]
+    },
+    {
+      "name": "country_highlight",
+      "update": "vlSelectionResolve(\"country_highlight_store\", \"union\", true, true)"
+    },
+    {
+      "name": "year_select",
+      "value": 2018,
+      "bind": {
+        "input": "range",
+        "min": 2010,
+        "max": 2018,
+        "step": 1,
+        "name": "Year"
+      }
+    },
+    {
+      "name": "country_highlight_tuple",
+      "on": [
+        {
+          "events": [{"source": "scope", "type": "mouseover"}],
+          "update": "datum && item().mark.marktype !== 'group' ? {unit: \"layer_0\", fields: country_highlight_tuple_fields, values: [(item().isVoronoi ? datum.datum : datum)[\"_vgsid_\"]]} : null",
+          "force": true
+        },
+        {"events": [{"source": "view", "type": "dblclick"}], "update": "null"}
+      ]
+    },
+    {
+      "name": "country_highlight_tuple_fields",
+      "value": [{"type": "E", "field": "_vgsid_"}]
+    },
+    {
+      "name": "country_highlight_modify",
+      "on": [
+        {
+          "events": {"signal": "country_highlight_tuple"},
+          "update": "modify(\"country_highlight_store\", country_highlight_tuple, true)"
+        }
+      ]
+    }
+  ],
+  "marks": [
+    {
+      "name": "layer_0_marks",
+      "type": "rect",
+      "style": ["bar"],
+      "interactive": true,
+      "from": {"data": "data_0"},
+      "encode": {
+        "update": {
+          "fill": [
+            {
+              "test": "datum['Country Name'] === 'Georgia'",
+              "scale": "color",
+              "field": "Country Name"
+            },
+            {"value": "silver"}
+          ],
+          "opacity": [
+            {"test": "datum['Country Name'] === 'Georgia'", "value": 1},
+            {
+              "test": "!length(data(\"country_highlight_store\")) || vlSelectionTest(\"country_highlight_store\", datum)",
+              "value": 1
+            },
+            {"value": 0.5}
+          ],
+          "tooltip": {
+            "signal": "{\"Country Name\": isValid(datum[\"Country Name\"]) ? datum[\"Country Name\"] : \"\"+datum[\"Country Name\"], \"Country Code\": isValid(datum[\"Country Code\"]) ? datum[\"Country Code\"] : \"\"+datum[\"Country Code\"], \"Tourists\": format(datum[\"Tourists\"], \",\"), \"Worldwide Rank\": format(datum[\"Rank\"], \"\"), \"% of Continent\": format(datum[\"Percentage_Continent\"], \"\"), \"% of World\": format(datum[\"Percentage_World\"], \".2\")}"
+          },
+          "ariaRoleDescription": {"value": "bar"},
+          "description": {
+            "signal": "\"Number of tourists: \" + (format(datum[\"sum_Tourists\"], \"\")) + \"; Continent: \" + (isValid(datum[\"Continent\"]) ? datum[\"Continent\"] : \"\"+datum[\"Continent\"]) + \"; Country Name: \" + (isValid(datum[\"Country Name\"]) ? datum[\"Country Name\"] : \"\"+datum[\"Country Name\"]) + \"; Sum of Tourists: \" + (isValid(datum[\"sum_Tourists\"]) ? datum[\"sum_Tourists\"] : \"\"+datum[\"sum_Tourists\"]) + \"; Country Code: \" + (isValid(datum[\"Country Code\"]) ? datum[\"Country Code\"] : \"\"+datum[\"Country Code\"]) + \"; Tourists: \" + (format(datum[\"Tourists\"], \",\")) + \"; Worldwide Rank: \" + (format(datum[\"Rank\"], \"\")) + \"; % of Continent: \" + (format(datum[\"Percentage_Continent\"], \"\")) + \"; % of World: \" + (format(datum[\"Percentage_World\"], \".2\"))"
+          },
+          "x": {"scale": "x", "field": "sum_Tourists_end"},
+          "x2": {"scale": "x", "field": "sum_Tourists_start"},
+          "y": {"scale": "y", "field": "Continent"},
+          "height": {"scale": "y", "band": 1}
+        }
+      }
+    },
+    {
+      "name": "layer_1_marks",
+      "type": "text",
+      "style": ["text"],
+      "interactive": false,
+      "from": {"data": "source_0"},
+      "encode": {
+        "update": {
+          "dx": {"value": 190},
+          "dy": {"value": -90},
+          "fontSize": {"value": 12},
+          "fill": {"value": "black"},
+          "opacity": [
+            {"test": "datum['Country Name'] === 'Georgia'", "value": 1},
+            {"value": 0}
+          ],
+          "description": {
+            "signal": "\"Country Name: \" + (isValid(datum[\"Country Name\"]) ? datum[\"Country Name\"] : \"\"+datum[\"Country Name\"])"
+          },
+          "x": {"signal": "width", "mult": 0.5},
+          "y": {"signal": "height", "mult": 0.5},
+          "text": {
+            "signal": "isValid(datum[\"Country Name\"]) ? datum[\"Country Name\"] : \"\"+datum[\"Country Name\"]"
+          },
+          "align": {"value": "center"},
+          "baseline": {"value": "middle"}
+        }
+      }
+    }
+  ],
+  "scales": [
+    {
+      "name": "x",
+      "type": "linear",
+      "domain": {
+        "data": "data_0",
+        "fields": ["sum_Tourists_start", "sum_Tourists_end"]
+      },
+      "range": [0, {"signal": "width"}],
+      "nice": true,
+      "zero": true
+    },
+    {
+      "name": "y",
+      "type": "band",
+      "domain": {
+        "data": "source_0",
+        "field": "Continent",
+        "sort": {"op": "sum", "field": "Tourists", "order": "descending"}
+      },
+      "range": [0, {"signal": "height"}],
+      "paddingInner": 0.1,
+      "paddingOuter": 0.05
+    },
+    {
+      "name": "color",
+      "type": "ordinal",
+      "domain": {"data": "data_0", "field": "Country Name", "sort": true},
+      "range": ["#003b6f"]
+    }
+  ],
+  "axes": [
+    {
+      "scale": "x",
+      "orient": "bottom",
+      "gridScale": "y",
+      "grid": true,
+      "tickCount": {"signal": "ceil(width/40)"},
+      "domain": false,
+      "labels": false,
+      "aria": false,
+      "maxExtent": 0,
+      "minExtent": 0,
+      "ticks": false,
+      "zindex": 0
+    },
+    {
+      "scale": "x",
+      "orient": "bottom",
+      "grid": false,
+      "title": "Number of tourists",
+      "labelFlush": true,
+      "labelOverlap": true,
+      "tickCount": {"signal": "ceil(width/40)"},
+      "zindex": 0
+    },
+    {
+      "scale": "y",
+      "orient": "left",
+      "grid": false,
+      "title": "Continent",
+      "zindex": 0
+    }
+  ],
+  "config": {"legend": {"disable": true}}
+}

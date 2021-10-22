@@ -1,0 +1,486 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v5.json",
+  "background": "white",
+  "padding": 25,
+  "width": 500,
+  "height": 500,
+  "style": "cell",
+  "data": [
+    {"name": "highlight_store"},
+    {"name": "label_store"},
+    {
+      "name": "source_0",
+      "url": "https://raw.githubusercontent.com/1anong/fit3179_visualisation2/main/data/incoming_tourism_stats_2010-2018_long.csv",
+      "format": {"type": "csv", "parse": {"Year": "date"}, "delimiter": ","},
+      "transform": [
+        {"type": "identifier", "as": "_vgsid_"},
+        {
+          "type": "filter",
+          "expr": "datum['Country Name'] === 'Georgia' || datum['Country Name'] === 'Turkey' || datum['Country Name'] === 'Azerbaijan' || datum['Country Name'] === 'Armenia' || datum['Country Name'] === 'Russia' || datum['Country Name'] === 'Iran' || datum['Country Name'] === 'Kazakhstan' || datum['Country Name'] === 'Ukraine' "
+        },
+        {
+          "type": "formula",
+          "expr": "datum.Tourists / 1000000",
+          "as": "Tourists_mil"
+        }
+      ]
+    },
+    {
+      "name": "data_0",
+      "source": "source_0",
+      "transform": [
+        {
+          "type": "aggregate",
+          "groupby": ["Country Name"],
+          "ops": ["max", "argmax"],
+          "fields": ["Year", "Year"],
+          "as": ["max_Year", "argmax_Year"]
+        },
+        {
+          "type": "filter",
+          "expr": "(isDate(datum[\"max_Year\"]) || (isValid(datum[\"max_Year\"]) && isFinite(+datum[\"max_Year\"]))) && isValid(datum[\"argmax_Year\"][\"Tourists_mil\"]) && isFinite(+datum[\"argmax_Year\"][\"Tourists_mil\"])"
+        }
+      ]
+    },
+    {
+      "name": "data_1",
+      "source": "source_0",
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "(isDate(datum[\"Year\"]) || (isValid(datum[\"Year\"]) && isFinite(+datum[\"Year\"]))) && isValid(datum[\"Tourists_mil\"]) && isFinite(+datum[\"Tourists_mil\"])"
+        }
+      ]
+    },
+    {
+      "name": "data_2",
+      "source": "source_0",
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "length(data(\"label_store\")) && vlSelectionTest(\"label_store\", datum)"
+        },
+        {
+          "type": "formula",
+          "expr": "datum.Tourists_mil + ' million' ",
+          "as": "Tourists_mil_label"
+        }
+      ]
+    },
+    {
+      "name": "data_3",
+      "source": "data_2",
+      "transform": [
+        {
+          "type": "aggregate",
+          "groupby": ["Tourists_mil"],
+          "ops": ["min"],
+          "fields": ["Year"],
+          "as": ["min_Year"]
+        },
+        {
+          "type": "filter",
+          "expr": "(isDate(datum[\"min_Year\"]) || (isValid(datum[\"min_Year\"]) && isFinite(+datum[\"min_Year\"]))) && isValid(datum[\"Tourists_mil\"]) && isFinite(+datum[\"Tourists_mil\"])"
+        }
+      ]
+    },
+    {
+      "name": "data_4",
+      "source": "data_2",
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "(isDate(datum[\"Year\"]) || (isValid(datum[\"Year\"]) && isFinite(+datum[\"Year\"]))) && isValid(datum[\"Tourists_mil\"]) && isFinite(+datum[\"Tourists_mil\"])"
+        }
+      ]
+    }
+  ],
+  "signals": [
+    {
+      "name": "unit",
+      "value": {},
+      "on": [
+        {"events": "mousemove", "update": "isTuple(group()) ? group() : unit"}
+      ]
+    },
+    {
+      "name": "highlight",
+      "update": "vlSelectionResolve(\"highlight_store\", \"union\", true, true)"
+    },
+    {
+      "name": "label",
+      "update": "vlSelectionResolve(\"label_store\", \"union\", true, true)"
+    },
+    {
+      "name": "highlight_tuple",
+      "on": [
+        {
+          "events": [{"source": "scope", "type": "mouseover"}],
+          "update": "datum && item().mark.marktype !== 'group' ? {unit: \"layer_0\", fields: highlight_tuple_fields, values: [(item().isVoronoi ? datum.datum : datum)[\"_vgsid_\"]]} : null",
+          "force": true
+        },
+        {"events": [{"source": "view", "type": "dblclick"}], "update": "null"}
+      ]
+    },
+    {
+      "name": "highlight_tuple_fields",
+      "value": [{"type": "E", "field": "_vgsid_"}]
+    },
+    {
+      "name": "highlight_toggle",
+      "value": false,
+      "on": [
+        {
+          "events": [{"source": "scope", "type": "mouseover"}],
+          "update": "event.shiftKey"
+        },
+        {"events": [{"source": "view", "type": "dblclick"}], "update": "false"}
+      ]
+    },
+    {
+      "name": "highlight_modify",
+      "on": [
+        {
+          "events": {"signal": "highlight_tuple"},
+          "update": "modify(\"highlight_store\", highlight_toggle ? null : highlight_tuple, highlight_toggle ? null : true, highlight_toggle ? highlight_tuple : null)"
+        }
+      ]
+    },
+    {
+      "name": "label_tuple",
+      "on": [
+        {
+          "events": [
+            {
+              "source": "scope",
+              "type": "mouseover",
+              "markname": "layer_2_voronoi"
+            }
+          ],
+          "update": "datum && item().mark.marktype !== 'group' ? {unit: \"layer_2\", fields: label_tuple_fields, values: [(item().isVoronoi ? datum.datum : datum)[\"Year\"]]} : null",
+          "force": true
+        },
+        {"events": [{"source": "view", "type": "dblclick"}], "update": "null"}
+      ]
+    },
+    {
+      "name": "label_tuple_fields",
+      "value": [{"field": "Year", "channel": "x", "type": "E"}]
+    },
+    {
+      "name": "label_toggle",
+      "value": false,
+      "on": [
+        {
+          "events": [
+            {
+              "source": "scope",
+              "type": "mouseover",
+              "markname": "layer_2_voronoi"
+            }
+          ],
+          "update": "event.shiftKey"
+        },
+        {"events": [{"source": "view", "type": "dblclick"}], "update": "false"}
+      ]
+    },
+    {
+      "name": "label_modify",
+      "on": [
+        {
+          "events": {"signal": "label_tuple"},
+          "update": "modify(\"label_store\", label_toggle ? null : label_tuple, label_toggle ? null : true, label_toggle ? label_tuple : null)"
+        }
+      ]
+    }
+  ],
+  "marks": [
+    {
+      "name": "layer_0_pathgroup",
+      "type": "group",
+      "from": {
+        "facet": {
+          "name": "faceted_path_layer_0_main",
+          "data": "source_0",
+          "groupby": ["Country Name"]
+        }
+      },
+      "encode": {
+        "update": {
+          "width": {"field": {"group": "width"}},
+          "height": {"field": {"group": "height"}}
+        }
+      },
+      "marks": [
+        {
+          "name": "layer_0_marks",
+          "type": "line",
+          "style": ["line"],
+          "sort": {"field": "datum[\"Year\"]"},
+          "interactive": true,
+          "from": {"data": "faceted_path_layer_0_main"},
+          "encode": {
+            "update": {
+              "stroke": {"scale": "color", "field": "Country Name"},
+              "opacity": [
+                {"test": "datum['Country Name'] === 'Georgia'", "value": 1},
+                {"value": 0.4}
+              ],
+              "strokeWidth": [
+                {"test": "datum['Country Name'] === 'Georgia'", "value": 5},
+                {"value": 3}
+              ],
+              "description": {
+                "signal": "\"Year: \" + (timeFormat(datum[\"Year\"], '%b %d, %Y')) + \"; Number of inbound tourists (million): \" + (format(datum[\"Tourists_mil\"], \"\")) + \"; Country Name: \" + (isValid(datum[\"Country Name\"]) ? datum[\"Country Name\"] : \"\"+datum[\"Country Name\"])"
+              },
+              "x": {"scale": "x", "field": "Year"},
+              "y": {"scale": "y", "field": "Tourists_mil"},
+              "defined": {
+                "signal": "isValid(datum[\"Year\"]) && isFinite(+datum[\"Year\"]) && isValid(datum[\"Tourists_mil\"]) && isFinite(+datum[\"Tourists_mil\"])"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "layer_1_marks",
+      "type": "text",
+      "style": ["text"],
+      "interactive": false,
+      "from": {"data": "data_0"},
+      "encode": {
+        "update": {
+          "align": {"value": "right"},
+          "dx": {"value": 60},
+          "dy": {"value": -5},
+          "fontSize": {"value": 13},
+          "fill": {"value": "black"},
+          "description": {
+            "signal": "\"Max of Year: \" + (timeFormat(datum[\"max_Year\"], '%b %d, %Y')) + \"; Number of inbound tourists (million): \" + (format(datum[\"argmax_Year\"][\"Tourists_mil\"], \"\")) + \"; Country Name: \" + (isValid(datum[\"Country Name\"]) ? datum[\"Country Name\"] : \"\"+datum[\"Country Name\"])"
+          },
+          "x": {"scale": "x", "field": "max_Year"},
+          "y": {"scale": "y", "field": "argmax_Year[\"Tourists_mil\"]"},
+          "text": {
+            "signal": "isValid(datum[\"Country Name\"]) ? datum[\"Country Name\"] : \"\"+datum[\"Country Name\"]"
+          },
+          "baseline": {"value": "middle"}
+        }
+      }
+    },
+    {
+      "name": "layer_2_marks",
+      "type": "symbol",
+      "style": ["point"],
+      "interactive": true,
+      "from": {"data": "data_1"},
+      "encode": {
+        "update": {
+          "opacity": [
+            {
+              "test": "length(data(\"label_store\")) && vlSelectionTest(\"label_store\", datum)",
+              "value": 1
+            },
+            {"value": 0}
+          ],
+          "fill": {"value": "transparent"},
+          "stroke": {"value": "#4c78a8"},
+          "ariaRoleDescription": {"value": "point"},
+          "description": {
+            "signal": "\"Year: \" + (timeFormat(datum[\"Year\"], '%b %d, %Y')) + \"; Number of inbound tourists (million): \" + (format(datum[\"Tourists_mil\"], \"\"))"
+          },
+          "x": {"scale": "x", "field": "Year"},
+          "y": {"scale": "y", "field": "Tourists_mil"}
+        }
+      }
+    },
+    {
+      "name": "layer_2_voronoi",
+      "type": "path",
+      "interactive": true,
+      "from": {"data": "layer_2_marks"},
+      "encode": {
+        "update": {
+          "fill": {"value": "transparent"},
+          "strokeWidth": {"value": 0.35},
+          "stroke": {"value": "transparent"},
+          "isVoronoi": {"value": true}
+        }
+      },
+      "transform": [
+        {
+          "type": "voronoi",
+          "x": {"expr": "datum.datum.x || 0"},
+          "y": {"expr": "0"},
+          "size": [{"signal": "width"}, {"signal": "height"}]
+        }
+      ]
+    },
+    {
+      "name": "layer_3_layer_0_marks",
+      "type": "rule",
+      "style": ["rule"],
+      "interactive": false,
+      "from": {"data": "data_3"},
+      "encode": {
+        "update": {
+          "stroke": {"value": "gray"},
+          "description": {
+            "signal": "\"Min of Year: \" + (timeFormat(datum[\"min_Year\"], '%b %d, %Y')) + \"; Number of inbound tourists (million): \" + (format(datum[\"Tourists_mil\"], \"\"))"
+          },
+          "x": {"scale": "x", "field": "min_Year"},
+          "y": {"scale": "y", "field": "Tourists_mil"},
+          "y2": {"scale": "y", "value": 0}
+        }
+      }
+    },
+    {
+      "name": "layer_3_layer_1_layer_0_marks",
+      "type": "text",
+      "style": ["text"],
+      "interactive": false,
+      "from": {"data": "data_4"},
+      "encode": {
+        "update": {
+          "stroke": {"value": "white"},
+          "strokeWidth": {"value": 2},
+          "align": {"value": "left"},
+          "dx": {"value": 5},
+          "dy": {"value": -5},
+          "fontSize": {"value": 11.5},
+          "fill": {"value": "black"},
+          "description": {
+            "signal": "\"Year: \" + (timeFormat(datum[\"Year\"], '%b %d, %Y')) + \"; Number of inbound tourists (million): \" + (format(datum[\"Tourists_mil\"], \"\")) + \"; Tourists_mil_label: \" + (isValid(datum[\"Tourists_mil_label\"]) ? datum[\"Tourists_mil_label\"] : \"\"+datum[\"Tourists_mil_label\"])"
+          },
+          "x": {"scale": "x", "field": "Year"},
+          "y": {"scale": "y", "field": "Tourists_mil"},
+          "text": {
+            "signal": "isValid(datum[\"Tourists_mil_label\"]) ? datum[\"Tourists_mil_label\"] : \"\"+datum[\"Tourists_mil_label\"]"
+          },
+          "baseline": {"value": "middle"}
+        }
+      }
+    },
+    {
+      "name": "layer_3_layer_1_layer_1_marks",
+      "type": "text",
+      "style": ["text"],
+      "interactive": false,
+      "from": {"data": "data_4"},
+      "encode": {
+        "update": {
+          "align": {"value": "left"},
+          "dx": {"value": 5},
+          "dy": {"value": -5},
+          "fontSize": {"value": 11.5},
+          "fill": {"value": "black"},
+          "description": {
+            "signal": "\"Year: \" + (timeFormat(datum[\"Year\"], '%b %d, %Y')) + \"; Number of inbound tourists (million): \" + (format(datum[\"Tourists_mil\"], \"\")) + \"; Tourists_mil_label: \" + (isValid(datum[\"Tourists_mil_label\"]) ? datum[\"Tourists_mil_label\"] : \"\"+datum[\"Tourists_mil_label\"])"
+          },
+          "x": {"scale": "x", "field": "Year"},
+          "y": {"scale": "y", "field": "Tourists_mil"},
+          "text": {
+            "signal": "isValid(datum[\"Tourists_mil_label\"]) ? datum[\"Tourists_mil_label\"] : \"\"+datum[\"Tourists_mil_label\"]"
+          },
+          "baseline": {"value": "middle"}
+        }
+      }
+    }
+  ],
+  "scales": [
+    {
+      "name": "x",
+      "type": "time",
+      "domain": {
+        "fields": [
+          {"data": "source_0", "field": "Year"},
+          {"data": "data_0", "field": "max_Year"},
+          {"data": "data_1", "field": "Year"},
+          {"data": "data_3", "field": "min_Year"},
+          {"data": "data_4", "field": "Year"}
+        ]
+      },
+      "range": [0, {"signal": "width"}]
+    },
+    {
+      "name": "y",
+      "type": "linear",
+      "domain": {
+        "fields": [
+          {"data": "source_0", "field": "Tourists_mil"},
+          {"data": "data_0", "field": "argmax_Year[\"Tourists_mil\"]"},
+          {"data": "data_1", "field": "Tourists_mil"},
+          {"data": "data_3", "field": "Tourists_mil"},
+          {"data": "data_4", "field": "Tourists_mil"}
+        ]
+      },
+      "range": [{"signal": "height"}, 0],
+      "nice": true,
+      "zero": true
+    },
+    {
+      "name": "color",
+      "type": "ordinal",
+      "domain": {"data": "source_0", "field": "Country Name", "sort": true},
+      "range": [
+        "#EFC164",
+        "#F3835D",
+        "red",
+        "#286275",
+        "#00434C",
+        "#55a0f3",
+        "#55f3a8",
+        "#8a6972"
+      ]
+    }
+  ],
+  "axes": [
+    {
+      "scale": "x",
+      "orient": "bottom",
+      "gridScale": "y",
+      "grid": true,
+      "tickCount": {"signal": "ceil(width/40)"},
+      "domain": false,
+      "labels": false,
+      "aria": false,
+      "maxExtent": 0,
+      "minExtent": 0,
+      "ticks": false,
+      "zindex": 0
+    },
+    {
+      "scale": "y",
+      "orient": "left",
+      "gridScale": "x",
+      "grid": true,
+      "tickCount": {"signal": "ceil(height/40)"},
+      "domain": false,
+      "labels": false,
+      "aria": false,
+      "maxExtent": 0,
+      "minExtent": 0,
+      "ticks": false,
+      "zindex": 0
+    },
+    {
+      "scale": "x",
+      "orient": "bottom",
+      "grid": false,
+      "labelFlush": true,
+      "labelOverlap": true,
+      "tickCount": {"signal": "ceil(width/40)"},
+      "zindex": 0
+    },
+    {
+      "scale": "y",
+      "orient": "left",
+      "grid": false,
+      "title": "Number of inbound tourists (million)",
+      "labelOverlap": true,
+      "tickCount": {"signal": "ceil(height/40)"},
+      "zindex": 0
+    }
+  ],
+  "config": {"legend": {"disable": true}}
+}
