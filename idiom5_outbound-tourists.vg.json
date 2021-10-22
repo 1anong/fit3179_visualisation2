@@ -6,7 +6,7 @@
   "height": 600,
   "title": {
     "text": "Distribution of Georgian Outbound Tourism (2019)",
-    "dy": -30,
+    "dy": -300,
     "fontSize": 20,
     "frame": "group"
   },
