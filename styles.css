@@ -6,11 +6,6 @@ body {
 	letter-spacing: 0px;
 }
 
-img {
-	width: 20px;
-	height: 20px;
-}
-
 #container {
 	display: block;
 	width: 1650px;
@@ -24,6 +19,12 @@ img {
 	margin: 0px;
     text-align: center;
 	background-color: #dedede;
+}
+
+
+#main-title img {
+	width: 20px;
+	height: 20px;
 }
 
 .group {
