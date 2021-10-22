@@ -486,5 +486,9 @@
       "zindex": 0
     }
   ],
-  "config": {"legend": {"disable": true}, "style": {"group-title": {"fontSize": 18}}}
+  "config": {
+    "axis": {"labelFontSize": 12, "titleFontSize": 14},
+    "legend": {"disable": true},
+    "style": {"group-title": {"fontSize": 18}}
+  }
 }
