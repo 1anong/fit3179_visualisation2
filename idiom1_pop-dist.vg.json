@@ -2,11 +2,13 @@
   "$schema": "https://vega.github.io/schema/vega/v5.json",
   "background": "white",
   "padding": 5,
-  "width": 700,
+  "width": 800,
   "height": 600,
   "title": {
     "text": "Population Distribution of Georgia by Municipality",
-    "frame": "group"
+    "frame": "group",
+    "dy": -50,
+    "fontSize": 18
   },
   "data": [
     {"name": "highlight_store"},
