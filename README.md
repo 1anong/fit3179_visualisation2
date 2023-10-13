@@ -2,6 +2,8 @@
 
 Repository contains datasets, `.topojson` files, `.vg.json` files and other HTML components.
 
+View the [page](https://1anong.github.io/fit3179_visualisation2/) here.
+
 ## Datasets used:
 - [Georgia - Subnational Population Statistics](https://data.humdata.org/dataset/georgia-population-statistics)
 - [Passport Index Dataset](https://www.kaggle.com/ayushggarg/international-tourism-demographics/)
